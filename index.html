@@ -1,1862 +1,913 @@
 <!DOCTYPE html>
-<html lang="en">
-
+<html class="h-full" lang="en">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>advaith@arch</title>
-  <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@300;400;500;600;700&display=swap"
-    rel="stylesheet" />
+  <meta charset="utf-8" />
+  <meta content="width=device-width, initial-scale=1.0" name="viewport" />
+  <title>MyComputer — Portfolio</title>
+  <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;600;700;900&family=Work+Sans:wght@400;500;600;700&display=swap" rel="stylesheet" />
+  <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&display=swap" rel="stylesheet" />
+  <script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+  <script id="tailwind-config">
+    tailwind.config = {
+      darkMode: "class",
+      theme: {
+        extend: {
+          colors: {
+            "surface-container-highest": "#e3e2e2",
+            "outline-variant": "#bdc9c8",
+            "inverse-surface": "#2f3131",
+            "surface-dim": "#dadada",
+            "surface-container": "#eeeeee",
+            "secondary-fixed": "#e3e2e2",
+            "on-tertiary-fixed-variant": "#004f4f",
+            "on-surface-variant": "#3e4949",
+            "on-secondary-fixed": "#1a1c1c",
+            "on-primary-fixed": "#00006e",
+            "secondary-container": "#e0dfdf",
+            "on-secondary-container": "#626363",
+            "error": "#ba1a1a",
+            "on-primary": "#ffffff",
+            "background": "#faf9f9",
+            "surface-variant": "#e3e2e2",
+            "on-tertiary": "#ffffff",
+            "inverse-on-surface": "#f1f0f0",
+            "tertiary-fixed": "#93f2f2",
+            "primary-fixed-dim": "#bfc2ff",
+            "surface-container-high": "#e8e8e8",
+            "on-surface": "#1a1c1c",
+            "tertiary-fixed-dim": "#76d6d5",
+            "on-primary-container": "#fbf8ff",
+            "on-tertiary-container": "#e3fffe",
+            "on-error": "#ffffff",
+            "surface-container-lowest": "#ffffff",
+            "inverse-primary": "#bfc2ff",
+            "secondary-fixed-dim": "#c6c6c6",
+            "on-tertiary-fixed": "#002020",
+            "error-container": "#ffdad6",
+            "primary": "#474eb7",
+            "tertiary": "#006565",
+            "on-error-container": "#93000a",
+            "surface-tint": "#4b53bc",
+            "on-primary-fixed-variant": "#3239a3",
+            "surface": "#faf9f9",
+            "tertiary-container": "#008080",
+            "primary-container": "#6068d2",
+            "on-background": "#1a1c1c",
+            "primary-fixed": "#e0e0ff",
+            "secondary": "#5d5e5f",
+            "surface-container-low": "#f4f3f3",
+            "surface-bright": "#faf9f9",
+            "outline": "#6e7979",
+            "on-secondary-fixed-variant": "#464747",
+            "on-secondary": "#ffffff"
+          },
+          borderRadius: {
+            "DEFAULT": "0rem",
+            "lg": "0rem",
+            "xl": "0rem",
+            "full": "9999px"
+          },
+          fontFamily: {
+            "headline": ["Space Grotesk"],
+            "body": ["Work Sans"],
+            "label": ["Work Sans"]
+          }
+        }
+      }
+    }
+  </script>
   <style>
-    *,
-    *::before,
-    *::after {
-      box-sizing: border-box;
-      margin: 0;
-      padding: 0;
+    * { box-sizing: border-box; }
+
+    .material-symbols-outlined {
+      font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
     }
 
-    html,
-    body {
-      width: 100%;
-      height: 100%;
-      overflow: hidden;
-      background: #000;
+    .bevel-out {
+      border-top: 2px solid #ffffff;
+      border-left: 2px solid #ffffff;
+      border-bottom: 2px solid #5d5e5f;
+      border-right: 2px solid #5d5e5f;
     }
 
-    :root {
-      --bg: #000000;
-      --bg1: #0d0d0d;
-      --bg2: #111111;
-      --bg3: #1a1a1a;
-      --bg4: #222222;
-      --border: #2a2a2a;
-      --border2: #333333;
-      --text: #cdd6f4;
-      --text2: #a6adc8;
-      --text3: #585b70;
-      --accent: #2dd4bf;
-      /* teal */
-      --accent2: #89b4fa;
-      /* blue */
-      --green: #a6e3a1;
-      --red: #f38ba8;
-      --yellow: #f9e2af;
-      --mauve: #cba6f7;
-      --pink: #f5c2e7;
-      --mono: 'JetBrains Mono', 'Fira Code', 'Cascadia Code', monospace;
-      --bar-h: 26px;
-      --taskbar-h: 40px;
-      --title-h: 26px;
+    .bevel-in {
+      border-top: 2px solid #5d5e5f;
+      border-left: 2px solid #5d5e5f;
+      border-bottom: 2px solid #ffffff;
+      border-right: 2px solid #ffffff;
     }
 
-    body {
-      font-family: var(--mono);
-      color: var(--text);
+    .title-bar {
+      background: linear-gradient(90deg, #474eb7 0%, #6068d2 100%);
     }
 
-    /* ══ THREE.JS CANVAS ══════════════════════════════════════ */
-    #bg-canvas {
-      position: fixed;
-      inset: 0;
-      width: 100%;
-      height: 100%;
-      z-index: 0;
+    .desktop {
+      background-color: #008080;
     }
 
-    /* ══ TOP BAR (i3bar style) ════════════════════════════════ */
-    #topbar {
-      position: fixed;
-      top: 0;
-      left: 0;
-      right: 0;
-      height: var(--bar-h);
-      background: rgba(0, 0, 0, 0.88);
-      border-bottom: 1px solid var(--border);
+    .crt-effect {
+      background:
+        linear-gradient(rgba(18,16,16,0) 50%, rgba(0,0,0,0.08) 50%),
+        linear-gradient(90deg, rgba(255,0,0,0.04), rgba(0,255,0,0.02), rgba(0,0,255,0.04));
+      background-size: 100% 2px, 3px 100%;
+    }
+
+    .taskbar-btn {
+      border-top: 2px solid #ffffff;
+      border-left: 2px solid #ffffff;
+      border-bottom: 2px solid #5d5e5f;
+      border-right: 2px solid #5d5e5f;
+      background: #dadada;
+      font-family: 'Work Sans', sans-serif;
+      font-size: 12px;
+      font-weight: 700;
+      text-transform: uppercase;
       display: flex;
       align-items: center;
-      z-index: 9999;
-      backdrop-filter: blur(8px);
+      gap: 4px;
+      padding: 0 10px;
+      height: 36px;
+      cursor: pointer;
+      white-space: nowrap;
+    }
+
+    .taskbar-btn:hover { background: #e8e8e8; }
+
+    .taskbar-btn.active {
+      border-top: 2px solid #5d5e5f;
+      border-left: 2px solid #5d5e5f;
+      border-bottom: 2px solid #ffffff;
+      border-right: 2px solid #ffffff;
+      background: #c8c8c8;
+    }
+
+    .taskbar-btn:active {
+      border-top: 2px solid #5d5e5f;
+      border-left: 2px solid #5d5e5f;
+      border-bottom: 2px solid #ffffff;
+      border-right: 2px solid #ffffff;
+      transform: translate(1px, 1px);
+    }
+
+    .start-btn {
+      border-top: 2px solid #ffffff;
+      border-left: 2px solid #ffffff;
+      border-bottom: 2px solid #3a3a3a;
+      border-right: 2px solid #3a3a3a;
+      background: #dadada;
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      padding: 0 12px;
+      height: 36px;
+      cursor: pointer;
+    }
+
+    .start-btn:active {
+      border-top: 2px solid #3a3a3a;
+      border-left: 2px solid #3a3a3a;
+      border-bottom: 2px solid #ffffff;
+      border-right: 2px solid #ffffff;
+      transform: translate(1px, 1px);
+    }
+
+    .win-btn {
+      width: 20px;
+      height: 18px;
+      border-top: 2px solid #ffffff;
+      border-left: 2px solid #ffffff;
+      border-bottom: 2px solid #5d5e5f;
+      border-right: 2px solid #5d5e5f;
+      background: #dadada;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-family: 'Work Sans', monospace;
+      font-size: 11px;
+      font-weight: 700;
+      cursor: pointer;
+      flex-shrink: 0;
+    }
+
+    .win-btn:hover { background: #eeeeee; }
+    .win-btn:active {
+      border-top: 2px solid #5d5e5f;
+      border-left: 2px solid #5d5e5f;
+      border-bottom: 2px solid #fff;
+      border-right: 2px solid #fff;
+      transform: translate(1px,1px);
+    }
+
+    .desktop-icon {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      cursor: pointer;
+      width: 64px;
+      padding: 4px;
       user-select: none;
     }
 
-    /* Workspaces */
-    #ws-list {
-      display: flex;
-      height: 100%;
-      flex-shrink: 0;
+    .desktop-icon:hover .icon-label,
+    .desktop-icon:focus .icon-label {
+      background: #000080;
+      color: white;
+      outline: 1px dotted rgba(255,255,255,0.5);
     }
 
-    .ws-item {
-      display: flex;
-      align-items: center;
-      padding: 0 12px;
+    .icon-label {
+      font-family: 'Work Sans', sans-serif;
       font-size: 11px;
-      color: var(--text3);
-      cursor: pointer;
-      border-right: 1px solid var(--border);
-      transition: background 100ms, color 100ms;
-      letter-spacing: 0.03em;
-    }
-
-    .ws-item:first-child {
-      border-left: 1px solid var(--border);
-    }
-
-    .ws-item:hover {
-      background: var(--bg3);
-      color: var(--text2);
-    }
-
-    .ws-item.ws-active {
-      background: var(--bg2);
-      color: var(--accent);
-    }
-
-    .ws-item.ws-occupied {
-      color: var(--text2);
-    }
-
-    /* Centered clock */
-    #bar-center {
-      flex: 1;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      font-size: 11px;
-      color: var(--text2);
-      letter-spacing: 0.04em;
-      gap: 16px;
-    }
-
-    #bar-date {
-      color: var(--text3);
-    }
-
-    #bar-time {
-      color: var(--text);
-      font-weight: 500;
-    }
-
-    /* System tray */
-    #bar-tray {
-      display: flex;
-      align-items: center;
-      height: 100%;
-      gap: 0;
-      flex-shrink: 0;
-    }
-
-    .tray-item {
-      display: flex;
-      align-items: center;
-      gap: 5px;
-      padding: 0 10px;
-      height: 100%;
-      font-size: 11px;
-      color: var(--text2);
-      border-left: 1px solid var(--border);
-      cursor: default;
-      white-space: nowrap;
-    }
-
-    .tray-icon {
-      font-size: 12px;
-    }
-
-    .tray-warn {
-      color: var(--yellow);
-    }
-
-    .tray-alert {
-      color: var(--red);
-    }
-
-    /* ══ DESKTOP ══════════════════════════════════════════════ */
-    #desktop {
-      position: fixed;
-      top: var(--bar-h);
-      left: 0;
-      right: 0;
-      bottom: var(--taskbar-h);
-      z-index: 1;
-    }
-
-    /* ══ WINDOWS ══════════════════════════════════════════════ */
-    .win {
-      position: absolute;
-      display: none;
-      flex-direction: column;
-      background: var(--bg1);
-      border: 1px solid var(--border);
-      border-radius: 0;
-      overflow: hidden;
-      z-index: 100;
-      min-width: 300px;
-      min-height: 180px;
-    }
-
-    .win.win-focused {
-      border-color: var(--border2);
-      box-shadow: 0 8px 40px rgba(0, 0, 0, 0.7);
-    }
-
-    /* Titlebar */
-    .win-titlebar {
-      height: var(--title-h);
-      background: var(--bg3);
-      display: flex;
-      align-items: center;
-      gap: 0;
-      flex-shrink: 0;
-      cursor: grab;
-      border-bottom: 1px solid var(--border);
-      padding: 0;
-    }
-
-    .win-titlebar:active {
-      cursor: grabbing;
-    }
-
-    /* Traffic lights — left side */
-    .win-controls {
-      display: flex;
-      align-items: center;
-      gap: 6px;
-      padding: 0 10px;
-      flex-shrink: 0;
-    }
-
-    .wc-btn {
-      width: 11px;
-      height: 11px;
-      border-radius: 50%;
-      border: none;
-      cursor: pointer;
-      transition: filter 100ms;
-      outline: none;
-      flex-shrink: 0;
-    }
-
-    .wc-btn:hover {
-      filter: brightness(1.4);
-    }
-
-    .wc-close {
-      background: #f38ba8;
-    }
-
-    .wc-min {
-      background: #f9e2af;
-    }
-
-    .wc-max {
-      background: #a6e3a1;
-    }
-
-    /* Tab-style title */
-    .win-title-tab {
-      display: flex;
-      align-items: center;
-      height: 100%;
-      padding: 0 14px;
-      font-size: 11px;
-      color: var(--text2);
-      border-right: 1px solid var(--border);
-      gap: 6px;
-      letter-spacing: 0.02em;
-    }
-
-    .win-title-tab .tab-icon {
-      color: var(--text3);
-      font-size: 10px;
-    }
-
-    .win-title-tab.active-tab {
-      background: var(--bg2);
-      color: var(--text);
-      border-bottom: 1px solid var(--accent);
-      margin-bottom: -1px;
-    }
-
-    .win-title-spacer {
-      flex: 1;
-    }
-
-    /* Body */
-    .win-body {
-      flex: 1;
-      overflow: hidden;
-      display: flex;
-      flex-direction: column;
-    }
-
-    .win-body-scroll {
-      flex: 1;
-      overflow-y: auto;
-      overflow-x: hidden;
-      scrollbar-width: thin;
-      scrollbar-color: var(--border2) transparent;
-    }
-
-    .win-body-scroll::-webkit-scrollbar {
-      width: 3px;
-    }
-
-    .win-body-scroll::-webkit-scrollbar-thumb {
-      background: var(--border2);
-    }
-
-    /* Resize handle */
-    .win-resize-handle {
-      position: absolute;
-      right: 0;
-      bottom: 0;
-      width: 10px;
-      height: 10px;
-      cursor: se-resize;
-      z-index: 10;
-    }
-
-    /* ══ STATUS BAR (bottom of window, like vim) ═════════════ */
-    .win-statusbar {
-      height: 20px;
-      background: var(--accent2);
-      display: flex;
-      align-items: center;
-      padding: 0 10px;
-      gap: 12px;
-      font-size: 10px;
-      color: var(--bg);
-      flex-shrink: 0;
-    }
-
-    .win-statusbar.green {
-      background: var(--green);
-    }
-
-    .win-statusbar.mauve {
-      background: var(--mauve);
-    }
-
-    .ws-sep {
-      color: rgba(0, 0, 0, 0.3);
-    }
-
-    /* ══ TERMINAL WINDOW ═════════════════════════════════════ */
-    .term-body {
-      background: #000;
-      flex: 1;
-      padding: 8px 12px;
-      font-size: 12px;
-      line-height: 1.55;
-      overflow-y: auto;
-      cursor: text;
-      scrollbar-width: thin;
-      scrollbar-color: var(--border2) transparent;
-    }
-
-    .t-output {
-      display: flex;
-      flex-direction: column;
-    }
-
-    .t-line {
-      white-space: pre-wrap;
-      word-break: break-all;
-    }
-
-    .t-input-wrap {
-      display: flex;
-      align-items: center;
-      gap: 0;
-      margin-top: 2px;
-    }
-
-    .t-input {
-      background: transparent;
-      border: none;
-      outline: none;
-      color: var(--text);
-      font-family: var(--mono);
-      font-size: 12px;
-      flex: 1;
-      caret-color: var(--accent);
-    }
-
-    .t-ps1 {
-      white-space: nowrap;
-    }
-
-    .t-user {
-      color: var(--green);
-    }
-
-    .t-at {
-      color: var(--text3);
-    }
-
-    .t-host {
-      color: var(--accent2);
-    }
-
-    .t-sep {
-      color: var(--text3);
-    }
-
-    .t-path {
-      color: var(--accent2);
-    }
-
-    .t-git {
-      color: var(--mauve);
-    }
-
-    .t-dollar {
-      color: var(--text);
-    }
-
-    .t-c {
-      color: var(--accent);
-    }
-
-    .t-link {
-      color: var(--accent2);
-      text-decoration: underline;
-      cursor: pointer;
-    }
-
-    .t-dim {
-      color: var(--text3);
-    }
-
-    .nf-arch {
-      color: var(--accent);
-    }
-
-    .nf-key {
-      color: var(--accent2);
-    }
-
-    .nf-val {
-      color: var(--text);
-    }
-
-    /* ══ NEOFETCH OUTPUT ═════════════════════════════════════ */
-    .neofetch-wrap {
-      display: flex;
-      gap: 24px;
-      padding: 6px 0;
-    }
-
-    .nf-ascii {
-      color: var(--accent);
-      font-size: 11px;
-      line-height: 1.45;
-      flex-shrink: 0;
-      white-space: pre;
-    }
-
-    .nf-info {
-      display: flex;
-      flex-direction: column;
-      gap: 1px;
-    }
-
-    .nf-info-row {
-      display: flex;
-      gap: 0;
-      font-size: 11px;
-      line-height: 1.6;
-    }
-
-    .nf-info-key {
-      color: var(--accent2);
-      font-weight: 600;
-      min-width: 100px;
-    }
-
-    .nf-info-val {
-      color: var(--text);
-    }
-
-    .nf-colors {
-      display: flex;
-      gap: 2px;
-      margin-top: 6px;
-    }
-
-    .nf-color-swatch {
-      width: 14px;
-      height: 14px;
-    }
-
-    /* ══ FILE TREE ═══════════════════════════════════════════ */
-    .filetree-body {
-      background: var(--bg1);
-      flex: 1;
-      overflow-y: auto;
-      padding: 4px 0;
-      font-size: 12px;
-      scrollbar-width: thin;
-      scrollbar-color: var(--border2) transparent;
-    }
-
-    .ft-row {
-      display: flex;
-      align-items: center;
-      gap: 4px;
-      padding: 2px 8px 2px 0;
-      cursor: pointer;
-      color: var(--text2);
-      white-space: nowrap;
-      transition: background 80ms;
-    }
-
-    .ft-row:hover {
-      background: var(--bg3);
-    }
-
-    .ft-row.ft-active {
-      background: var(--bg4);
-      color: var(--text);
-    }
-
-    .ft-row.ft-dir {
-      color: var(--accent2);
-    }
-
-    .ft-indent {
-      display: inline-block;
-    }
-
-    .ft-icon {
-      color: var(--text3);
-      font-size: 11px;
-      width: 14px;
+      color: white;
+      text-shadow: 1px 1px 1px #000;
+      padding: 1px 3px;
       text-align: center;
+      word-break: break-word;
+      line-height: 1.2;
     }
 
-    .ft-icon.dir {
-      color: var(--accent2);
+    #start-menu {
+      position: fixed;
+      bottom: 44px;
+      left: 0;
+      width: 220px;
+      z-index: 200;
+      display: none;
+      flex-direction: row;
+      background: #dadada;
+      border-top: 2px solid #fff;
+      border-left: 2px solid #fff;
+      border-right: 2px solid #5d5e5f;
+      border-bottom: 2px solid #5d5e5f;
     }
 
-    .ft-icon.py {
-      color: var(--yellow);
-    }
+    #start-menu.open { display: flex; }
 
-    .ft-icon.git {
-      color: var(--red);
-    }
-
-    .ft-icon.md {
-      color: var(--text2);
-    }
-
-    .ft-icon.pdf {
-      color: var(--red);
-    }
-
-    /* ══ PROJECTS / EDITOR STYLE ════════════════════════════ */
-    .editor-body {
-      flex: 1;
-      display: flex;
-      overflow: hidden;
-    }
-
-    .editor-gutter {
-      width: 36px;
-      background: var(--bg1);
-      border-right: 1px solid var(--border);
-      padding: 8px 0;
-      font-size: 11px;
-      color: var(--text3);
-      text-align: right;
-      padding-right: 6px;
-      line-height: 1.6;
+    .start-menu-header {
+      background: linear-gradient(180deg, #474eb7 0%, #6068d2 100%);
+      color: white;
+      font-family: 'Space Grotesk', sans-serif;
+      font-weight: 900;
+      font-size: 15px;
+      writing-mode: vertical-rl;
+      text-orientation: mixed;
+      transform: rotate(180deg);
+      padding: 8px 5px;
+      letter-spacing: 0.06em;
+      width: 28px;
       flex-shrink: 0;
-      overflow: hidden;
     }
 
-    .editor-content {
+    .start-menu-items {
+      display: flex;
+      flex-direction: column;
       flex: 1;
-      padding: 8px 16px;
+    }
+
+    .start-menu-item {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      padding: 7px 12px;
+      font-family: 'Work Sans', sans-serif;
+      font-size: 13px;
+      font-weight: 600;
+      cursor: pointer;
+      color: #1a1c1c;
+    }
+
+    .start-menu-item:hover {
+      background: #474eb7;
+      color: white;
+    }
+
+    .start-menu-item:hover .material-symbols-outlined { color: white !important; }
+
+    .start-menu-divider {
+      height: 1px;
+      background: #5d5e5f;
+      margin: 2px 6px;
+    }
+
+    .sys-tray {
+      margin-left: auto;
+      border-top: 2px solid #5d5e5f;
+      border-left: 2px solid #5d5e5f;
+      border-bottom: 2px solid #fff;
+      border-right: 2px solid #fff;
+      background: #dadada;
+      padding: 2px 10px;
+      font-family: 'Work Sans', sans-serif;
+      font-size: 11px;
+      font-weight: 600;
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      height: 36px;
+    }
+
+    ::-webkit-scrollbar { width: 16px; }
+    ::-webkit-scrollbar-track { background: #dadada; }
+    ::-webkit-scrollbar-thumb {
+      background: #dadada;
+      border-top: 2px solid #fff;
+      border-left: 2px solid #fff;
+      border-bottom: 2px solid #5d5e5f;
+      border-right: 2px solid #5d5e5f;
+    }
+
+    .view { display: none; width: 100%; height: 100%; position: absolute; top: 0; left: 0; }
+
+    .drag-handle { cursor: move; }
+
+    .address-bar {
+      background: white;
+      border-top: 2px solid #5d5e5f;
+      border-left: 2px solid #5d5e5f;
+      border-bottom: 2px solid #fff;
+      border-right: 2px solid #fff;
+      padding: 1px 6px;
+      font-family: 'Work Sans', sans-serif;
+      font-size: 11px;
+      color: #5d5e5f;
+      flex: 1;
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+    }
+
+    .tab-active {
+      background: #faf9f9;
+      border-top: 2px solid #5d5e5f;
+      border-left: 2px solid #5d5e5f;
+      border-right: 2px solid #fff;
+      border-bottom: 2px solid #faf9f9;
+      z-index: 10;
+      margin-bottom: -2px;
+      padding: 4px 16px;
+      font-family: 'Work Sans', sans-serif;
       font-size: 12px;
-      line-height: 1.6;
-      overflow-y: auto;
-      scrollbar-width: thin;
-      scrollbar-color: var(--border2) transparent;
-      color: var(--text);
-    }
-
-    .e-comment {
-      color: var(--text3);
-    }
-
-    .e-kw {
-      color: var(--mauve);
-    }
-
-    .e-fn {
-      color: var(--accent2);
-    }
-
-    .e-str {
-      color: var(--green);
-    }
-
-    .e-num {
-      color: var(--yellow);
-    }
-
-    .e-op {
-      color: var(--text2);
-    }
-
-    .e-cls {
-      color: var(--yellow);
-    }
-
-    .e-dec {
-      color: var(--accent);
-    }
-
-    .e-h1 {
-      color: var(--accent2);
       font-weight: 700;
     }
 
-    .e-h2 {
-      color: var(--accent);
-      font-weight: 600;
-    }
-
-    .e-h3 {
-      color: var(--mauve);
-      font-weight: 600;
-    }
-
-    .e-link {
-      color: var(--accent2);
-      text-decoration: underline;
-    }
-
-    .e-bold {
-      color: var(--text);
-      font-weight: 600;
-    }
-
-    /* ══ CONTACT / SKILLS WINDOW ════════════════════════════ */
-    .info-body {
-      padding: 20px 24px;
-      display: flex;
-      flex-direction: column;
-      gap: 20px;
-      overflow-y: auto;
-      flex: 1;
-      scrollbar-width: thin;
-      scrollbar-color: var(--border2) transparent;
-    }
-
-    .info-section-title {
-      font-size: 10px;
-      color: var(--text3);
-      letter-spacing: 0.12em;
-      text-transform: uppercase;
-      margin-bottom: 10px;
-      border-bottom: 1px solid var(--border);
-      padding-bottom: 6px;
-    }
-
-    .skill-row {
-      display: flex;
-      flex-direction: column;
-      gap: 4px;
-      margin-bottom: 10px;
-    }
-
-    .skill-label-row {
-      display: flex;
-      justify-content: space-between;
-      font-size: 11px;
-      color: var(--text2);
-    }
-
-    .skill-track {
-      height: 2px;
-      background: var(--bg3);
-      border-radius: 1px;
-    }
-
-    .skill-fill {
-      height: 100%;
-      background: var(--accent);
-      border-radius: 1px;
-      width: 0;
-      transition: width 900ms cubic-bezier(.22, 1, .36, 1);
-    }
-
-    .contact-row {
-      display: flex;
-      align-items: center;
-      gap: 12px;
-      padding: 10px 12px;
-      background: var(--bg2);
-      border: 1px solid var(--border);
+    .tab-inactive {
+      background: #dadada;
+      border-top: 2px solid #fff;
+      border-left: 2px solid #fff;
+      border-right: 2px solid #5d5e5f;
+      border-bottom: 2px solid #5d5e5f;
       cursor: pointer;
-      text-decoration: none;
-      transition: border-color 120ms, background 120ms;
-    }
-
-    .contact-row:hover {
-      border-color: var(--accent);
-      background: var(--bg3);
-    }
-
-    .contact-platform {
+      padding: 4px 16px;
+      font-family: 'Work Sans', sans-serif;
       font-size: 12px;
-      color: var(--text);
+      font-weight: 700;
+      opacity: 0.7;
     }
 
-    .contact-url {
-      font-size: 10px;
-      color: var(--text3);
-      margin-top: 1px;
-    }
+    .tab-inactive:hover { background: #eeeeee; }
 
-    .contact-arrow {
-      margin-left: auto;
-      color: var(--text3);
-      font-size: 12px;
-    }
+    .proj-card { transition: background 0.05s; }
+    .proj-card:hover { background: rgba(71,78,183,0.06); }
 
-    /* chips */
-    .chips {
-      display: flex;
-      flex-wrap: wrap;
-      gap: 6px;
-    }
-
-    .chip {
-      font-size: 10px;
-      color: var(--text2);
-      border: 1px solid var(--border2);
-      padding: 3px 10px;
-      background: var(--bg2);
-      transition: border-color 120ms, color 120ms;
-    }
-
-    .chip:hover {
-      border-color: var(--accent);
-      color: var(--accent);
-    }
-
-    /* ══ RESUME ══════════════════════════════════════════════ */
-    .resume-toolbar {
-      height: 28px;
-      background: var(--bg3);
-      border-bottom: 1px solid var(--border);
-      display: flex;
-      align-items: center;
-      padding: 0 12px;
-      gap: 12px;
-      font-size: 11px;
-      flex-shrink: 0;
-    }
-
-    .resume-label {
-      color: var(--text3);
-      flex: 1;
-    }
-
-    .resume-dl {
-      color: var(--accent);
-      text-decoration: none;
-      border: 1px solid var(--border2);
-      padding: 2px 10px;
-      font-size: 10px;
-      transition: border-color 120ms;
-    }
-
-    .resume-dl:hover {
-      border-color: var(--accent);
-    }
-
-    .resume-inner {
-      flex: 1;
-      display: flex;
-      flex-direction: column;
-    }
-
-    .resume-inner iframe {
-      flex: 1;
-      border: none;
-      width: 100%;
-    }
-
-    /* ══ ABOUT (neofetch style) ══════════════════════════════ */
-    .about-term {
-      background: #000;
-      flex: 1;
-      padding: 12px 16px;
-      overflow-y: auto;
-      font-size: 12px;
-      line-height: 1.55;
-    }
-
-    /* ══ TASKBAR ═════════════════════════════════════════════ */
-    #taskbar {
-      position: fixed;
-      bottom: 0;
-      left: 0;
-      right: 0;
-      height: var(--taskbar-h);
-      background: rgba(10, 10, 10, 0.95);
-      border-top: 1px solid var(--border);
-      display: flex;
-      align-items: center;
-      z-index: 9999;
-      backdrop-filter: blur(12px);
-      gap: 2px;
-      padding: 0 8px;
-    }
-
-    .tb-start {
-      width: 32px;
-      height: 32px;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      background: var(--bg3);
-      border: 1px solid var(--border2);
-      cursor: pointer;
-      font-size: 14px;
-      color: var(--accent);
-      margin-right: 4px;
-      transition: background 100ms;
-      flex-shrink: 0;
-    }
-
-    .tb-start:hover {
-      background: var(--bg4);
-    }
-
-    .tb-divider {
-      width: 1px;
-      height: 24px;
-      background: var(--border);
-      margin: 0 4px;
-      flex-shrink: 0;
-    }
-
-    .tb-apps {
-      display: flex;
-      gap: 2px;
-      flex: 1;
-      overflow: hidden;
-    }
-
-    .tb-btn {
-      display: flex;
-      align-items: center;
-      gap: 6px;
-      padding: 0 10px;
-      height: 30px;
-      background: var(--bg2);
-      border: 1px solid var(--border);
-      color: var(--text2);
-      font-family: var(--mono);
-      font-size: 10px;
-      cursor: pointer;
-      white-space: nowrap;
-      transition: background 100ms, color 100ms, border-color 100ms;
-      border-radius: 0;
-    }
-
-    .tb-btn:hover {
-      background: var(--bg3);
-      color: var(--text);
-      border-color: var(--border2);
-    }
-
-    .tb-btn.tb-active {
-      background: var(--bg3);
-      color: var(--accent);
-      border-bottom: 1px solid var(--accent);
-    }
-
-    .tb-btn-icon {
-      width: 14px;
-      height: 14px;
-      background: var(--bg4);
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      font-size: 9px;
-      color: var(--text3);
-    }
-
-    .tb-tray {
-      display: flex;
-      align-items: center;
-      gap: 2px;
-      flex-shrink: 0;
-    }
-
-    .tb-tray-item {
-      padding: 0 8px;
-      height: 30px;
-      display: flex;
-      align-items: center;
-      gap: 5px;
-      font-size: 10px;
-      color: var(--text2);
-      background: var(--bg2);
-      border: 1px solid var(--border);
-      white-space: nowrap;
-      cursor: default;
-    }
-
-    .tb-clock {
-      color: var(--text);
-      min-width: 70px;
-      text-align: center;
-    }
-
-    /* ══ BOOT ════════════════════════════════════════════════ */
-    #boot {
+    #menu-overlay {
+      display: none;
       position: fixed;
       inset: 0;
-      background: #000;
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      justify-content: center;
-      z-index: 99999;
-      gap: 20px;
+      z-index: 150;
     }
 
-    .boot-ascii {
-      color: var(--accent);
+    #menu-overlay.open { display: block; }
+
+    .action-btn {
+      border-top: 2px solid #ffffff;
+      border-left: 2px solid #ffffff;
+      border-bottom: 2px solid #5d5e5f;
+      border-right: 2px solid #5d5e5f;
+      padding: 5px 18px;
+      font-family: 'Work Sans', sans-serif;
       font-size: 13px;
-      line-height: 1.4;
-      white-space: pre;
-      text-align: center;
+      font-weight: 700;
+      cursor: pointer;
     }
 
-    .boot-text {
-      font-size: 11px;
-      color: var(--text3);
-    }
-
-    .boot-log {
-      width: 420px;
-      height: 100px;
-      overflow: hidden;
-      display: flex;
-      flex-direction: column;
-      gap: 2px;
-    }
-
-    .boot-log-line {
-      font-size: 10px;
-      color: var(--text3);
-    }
-
-    .boot-log-line .ok {
-      color: var(--green);
-    }
-
-    .boot-log-line .started {
-      color: var(--accent2);
-    }
-
-    /* ══ SPLIT LAYOUT HELPER ════════════════════════════════ */
-    .split-h {
-      display: flex;
-      height: 100%;
-    }
-
-    .split-v {
-      display: flex;
-      flex-direction: column;
-      height: 100%;
-    }
-
-    .split-pane {
-      display: flex;
-      flex-direction: column;
-      overflow: hidden;
-    }
-
-    .split-divider-v {
-      width: 1px;
-      background: var(--border);
-      flex-shrink: 0;
-    }
-
-    .split-divider-h {
-      height: 1px;
-      background: var(--border);
-      flex-shrink: 0;
-    }
-
-    .pane-titlebar {
-      height: 20px;
-      background: var(--bg3);
-      border-bottom: 1px solid var(--border);
-      display: flex;
-      align-items: center;
-      padding: 0 8px;
-      gap: 8px;
-      font-size: 10px;
-      color: var(--text3);
-      flex-shrink: 0;
-    }
-
-    .pane-tb-name {
-      color: var(--text2);
-    }
-
-    .pane-tb-git {
-      color: var(--mauve);
+    .action-btn:hover { filter: brightness(1.05); }
+    .action-btn:active {
+      border-top: 2px solid #5d5e5f;
+      border-left: 2px solid #5d5e5f;
+      border-bottom: 2px solid #fff;
+      border-right: 2px solid #fff;
+      transform: translate(1px, 1px);
     }
   </style>
 </head>
+<body class="font-body" style="height:100vh;display:flex;flex-direction:column;overflow:hidden;background:#008080;">
 
-<body>
+  <!-- View container -->
+  <div style="flex:1;position:relative;overflow:hidden;">
 
-  <canvas id="bg-canvas"></canvas>
+    <!-- ====== DESKTOP VIEW ====== -->
+    <div id="view-desktop" class="view active desktop">
+      <!-- Desktop Icons -->
+      <div style="position:absolute;left:8px;top:8px;display:flex;flex-direction:column;gap:6px;z-index:10;">
+        <div class="desktop-icon" tabindex="0" onclick="openView('desktop')">
+          <span class="material-symbols-outlined text-white" style="font-size:36px;text-shadow:1px 1px 2px #000;">desktop_windows</span>
+          <span class="icon-label">My Computer</span>
+        </div>
+        <div class="desktop-icon" tabindex="0" onclick="openView('portfolio')">
+          <span class="material-symbols-outlined text-white" style="font-size:36px;text-shadow:1px 1px 2px #000;">folder</span>
+          <span class="icon-label">Portfolio</span>
+        </div>
+        <div class="desktop-icon" tabindex="0" onclick="openView('about')">
+          <span class="material-symbols-outlined text-white" style="font-size:36px;text-shadow:1px 1px 2px #000;">person</span>
+          <span class="icon-label">About Me</span>
+        </div>
+        <div class="desktop-icon" tabindex="0" onclick="openView('contact')">
+          <span class="material-symbols-outlined text-white" style="font-size:36px;text-shadow:1px 1px 2px #000;">mail</span>
+          <span class="icon-label">Contact</span>
+        </div>
+        <div class="desktop-icon" tabindex="0">
+          <span class="material-symbols-outlined text-white" style="font-size:36px;text-shadow:1px 1px 2px #000;">delete</span>
+          <span class="icon-label">Recycle Bin</span>
+        </div>
+      </div>
 
-  <!-- ══ TOP BAR ══════════════════════════════════════════════ -->
-  <div id="topbar">
-    <div id="ws-list">
-      <div class="ws-item ws-active" onclick="switchWS(1)">A 1</div>
-      <div class="ws-item ws-occupied" onclick="switchWS(2)">2</div>
-      <div class="ws-item" onclick="switchWS(3)">3</div>
-      <div class="ws-item" onclick="switchWS(4)">4</div>
+      <!-- Main Portfolio Window -->
+      <div class="bevel-out" id="win-main" style="position:absolute;top:8%;left:18%;width:58%;min-width:360px;background:#dadada;z-index:20;">
+        <div class="title-bar drag-handle" style="height:28px;display:flex;align-items:center;padding:0 4px;justify-content:space-between;user-select:none;">
+          <div style="display:flex;align-items:center;gap:6px;padding:0 4px;">
+            <span class="material-symbols-outlined text-white" style="font-size:13px;">person</span>
+            <span style="color:#fff;font-family:'Space Grotesk',sans-serif;font-weight:700;font-size:12px;letter-spacing:-0.02em;">My Portfolio — C:\Desktop\index.html</span>
+          </div>
+          <div style="display:flex;gap:2px;">
+            <button class="win-btn">_</button>
+            <button class="win-btn">□</button>
+            <button class="win-btn">×</button>
+          </div>
+        </div>
+        <!-- Toolbar row -->
+        <div style="background:#dadada;padding:2px 4px;border-bottom:1px solid #b0b0b0;display:flex;align-items:center;gap:8px;">
+          <button style="display:flex;align-items:center;gap:2px;font-size:11px;font-family:'Work Sans',sans-serif;font-weight:600;background:none;border:none;cursor:pointer;padding:2px 4px;">
+            <span class="material-symbols-outlined" style="font-size:15px;">arrow_back</span>Back
+          </button>
+          <button style="display:flex;align-items:center;gap:2px;font-size:11px;font-family:'Work Sans',sans-serif;font-weight:600;background:none;border:none;cursor:pointer;padding:2px 4px;">
+            <span class="material-symbols-outlined" style="font-size:15px;">arrow_forward</span>Fwd
+          </button>
+          <button style="display:flex;align-items:center;gap:2px;font-size:11px;font-family:'Work Sans',sans-serif;font-weight:600;background:none;border:none;cursor:pointer;padding:2px 4px;">
+            <span class="material-symbols-outlined" style="font-size:15px;">home</span>Home
+          </button>
+          <div style="height:14px;width:1px;background:#aaa;"></div>
+          <div class="address-bar">C:\WINDOWS\Desktop\Portfolio\index.html</div>
+        </div>
+        <!-- Content -->
+        <div style="background:#ffffff;padding:24px 28px;display:flex;gap:20px;align-items:flex-start;min-height:220px;flex-wrap:wrap;">
+          <div style="flex-shrink:0;">
+            <div class="bevel-out" style="padding:3px;background:#dadada;display:inline-block;">
+              <img src="https://placehold.co/116x116/dadada/474eb7?text=AP" alt="Profile" style="width:116px;height:116px;object-fit:cover;display:block;" />
+            </div>
+          </div>
+          <div style="flex:1;min-width:200px;">
+            <h1 style="font-family:'Space Grotesk',sans-serif;font-size:2.2rem;font-weight:900;color:#474eb7;letter-spacing:-0.03em;line-height:0.95;margin-bottom:12px;">Welcome to<br>my OS</h1>
+            <p style="color:#5d5e5f;font-size:0.9rem;line-height:1.7;max-width:420px;font-family:'Work Sans',sans-serif;">
+              I am a Digital Archivist and Interface Architect specializing in retro-modern experiences. By blending the constraints of legacy computing with modern performance, I build digital environments that feel both nostalgic and authoritative.
+            </p>
+            <div style="margin-top:18px;display:flex;flex-wrap:wrap;gap:8px;">
+              <button class="action-btn" style="background:#474eb7;color:#fff;" onclick="openView('contact')">Hire Me</button>
+              <button class="action-btn" style="background:#dadada;color:#1a1c1c;">Download CV</button>
+              <button class="action-btn" style="background:#dadada;color:#1a1c1c;" onclick="openView('portfolio')">View Projects</button>
+            </div>
+          </div>
+        </div>
+        <div style="background:#dadada;padding:2px 5px;display:flex;gap:4px;">
+          <div class="bevel-in" style="flex:1;padding:1px 6px;font-size:10px;font-family:'Work Sans',sans-serif;font-weight:600;color:#5d5e5f;">Ready</div>
+          <div class="bevel-in" style="width:100px;padding:1px 6px;font-size:10px;font-family:'Work Sans',sans-serif;font-weight:600;color:#5d5e5f;text-align:right;">3 objects</div>
+        </div>
+      </div>
+
+      <!-- Projects floating window -->
+      <div class="bevel-out hidden md:block" id="win-projects" style="position:absolute;bottom:15%;right:4%;width:300px;background:#dadada;z-index:30;">
+        <div class="title-bar drag-handle" style="height:28px;display:flex;align-items:center;padding:0 4px;justify-content:space-between;user-select:none;">
+          <div style="display:flex;align-items:center;gap:6px;padding:0 4px;">
+            <span class="material-symbols-outlined text-white" style="font-size:13px;">folder_open</span>
+            <span style="color:#fff;font-family:'Space Grotesk',sans-serif;font-weight:700;font-size:12px;">Projects</span>
+          </div>
+          <button class="win-btn">×</button>
+        </div>
+        <div style="padding:6px;">
+          <div class="bevel-in" style="background:#fff;padding:10px;display:grid;grid-template-columns:1fr 1fr;gap:10px;height:152px;overflow-y:auto;">
+            <div class="proj-card" style="display:flex;flex-direction:column;align-items:center;cursor:pointer;padding:4px;" ondblclick="openView('portfolio')">
+              <span class="material-symbols-outlined" style="font-size:34px;color:#006565;">folder</span>
+              <span style="font-size:10px;font-family:'Work Sans',sans-serif;text-align:center;padding:1px 2px;">Design_2024</span>
+            </div>
+            <div class="proj-card" style="display:flex;flex-direction:column;align-items:center;cursor:pointer;padding:4px;">
+              <span class="material-symbols-outlined" style="font-size:34px;color:#006565;">folder</span>
+              <span style="font-size:10px;font-family:'Work Sans',sans-serif;text-align:center;padding:1px 2px;">Source_Code</span>
+            </div>
+            <div class="proj-card" style="display:flex;flex-direction:column;align-items:center;cursor:pointer;padding:4px;">
+              <span class="material-symbols-outlined" style="font-size:34px;color:#006565;">folder</span>
+              <span style="font-size:10px;font-family:'Work Sans',sans-serif;text-align:center;padding:1px 2px;">Art_Assets</span>
+            </div>
+            <div class="proj-card" style="display:flex;flex-direction:column;align-items:center;cursor:pointer;padding:4px;">
+              <span class="material-symbols-outlined" style="font-size:34px;color:#474eb7;">description</span>
+              <span style="font-size:10px;font-family:'Work Sans',sans-serif;text-align:center;padding:1px 2px;">readme.txt</span>
+            </div>
+          </div>
+          <div style="margin-top:3px;font-size:10px;font-family:'Work Sans',sans-serif;font-weight:600;color:#3e4949;display:flex;justify-content:space-between;">
+            <span>4 objects</span><span>1.2 MB</span>
+          </div>
+        </div>
+      </div>
+
+      <!-- System Identity floating window -->
+      <div class="bevel-out" id="win-identity" style="position:absolute;top:38%;right:5%;width:260px;background:#dadada;z-index:40;">
+        <div style="background:#e3e2e2;height:26px;display:flex;align-items:center;padding:0 4px;justify-content:space-between;user-select:none;" class="drag-handle">
+          <div style="display:flex;align-items:center;gap:6px;padding:0 4px;">
+            <span class="material-symbols-outlined" style="font-size:13px;color:#1a1c1c;">info</span>
+            <span style="font-family:'Space Grotesk',sans-serif;font-weight:700;font-size:12px;color:#1a1c1c;">System Identity</span>
+          </div>
+          <button class="win-btn">×</button>
+        </div>
+        <div style="padding:8px;display:flex;gap:8px;">
+          <div class="bevel-out" style="width:56px;height:56px;background:#fff;overflow:hidden;flex-shrink:0;">
+            <img src="https://placehold.co/56x56/1a1c1c/474eb7?text=v1" alt="Badge" style="width:56px;height:56px;object-fit:cover;filter:grayscale(1) brightness(1.2);" />
+          </div>
+          <div style="font-family:'Work Sans',sans-serif;display:flex;flex-direction:column;">
+            <span style="font-size:12px;font-weight:700;">System User: v.1.0.98</span>
+            <span style="font-size:10px;color:#626363;margin-top:3px;">Status: <span style="color:#006565;font-weight:700;">● Online</span></span>
+            <p style="font-size:10px;margin-top:5px;line-height:1.4;color:#3e4949;">Identity verified. Accessing portfolio archives...</p>
+          </div>
+        </div>
+        <div style="background:#f4f3f3;padding:4px 8px;display:flex;justify-content:flex-end;border-top:1px solid #bdc9c8;">
+          <button class="bevel-out" style="background:#dadada;padding:2px 14px;font-size:11px;font-family:'Work Sans',sans-serif;font-weight:700;cursor:pointer;" onclick="openView('about')">About Me</button>
+        </div>
+      </div>
     </div>
-    <div id="bar-center">
-      <span id="bar-date"></span>
-      <span id="bar-time"></span>
+
+    <!-- ====== ABOUT / SYSTEM IDENTITY VIEW ====== -->
+    <div id="view-about" class="view desktop" style="align-items:center;justify-content:center;padding:16px;">
+      <div class="bevel-out" style="background:#dadada;width:100%;max-width:580px;display:flex;flex-direction:column;">
+        <div class="title-bar" style="height:28px;display:flex;align-items:center;padding:0 4px;justify-content:space-between;">
+          <div style="display:flex;align-items:center;gap:6px;padding:0 4px;">
+            <span class="material-symbols-outlined text-white" style="font-size:13px;">account_circle</span>
+            <span style="color:#fff;font-family:'Space Grotesk',sans-serif;font-weight:700;font-size:12px;">System Identity</span>
+          </div>
+          <button class="win-btn" onclick="openView('desktop')">×</button>
+        </div>
+        <!-- Tabs -->
+        <div style="display:flex;align-items:flex-end;padding:4px 4px 0;border-bottom:2px solid #fff;">
+          <div class="tab-active">User Profile</div>
+          <div class="tab-inactive">Permissions</div>
+          <div class="tab-inactive">Network</div>
+        </div>
+        <!-- Tab content -->
+        <div class="bevel-in" style="background:#dadada;margin:0;padding:18px;display:flex;gap:20px;flex-wrap:wrap;">
+          <!-- Avatar -->
+          <div style="display:flex;flex-direction:column;align-items:center;gap:10px;min-width:130px;">
+            <div class="bevel-in" style="padding:3px;background:#000;">
+              <div class="crt-effect" style="width:120px;height:120px;background:#0a0a0a;overflow:hidden;position:relative;">
+                <img src="https://placehold.co/120x120/1a1c1c/6068d2?text=AP" alt="Avatar" style="width:100%;height:100%;object-fit:cover;filter:grayscale(1) opacity(0.85) brightness(1.1);mix-blend-mode:screen;" />
+                <div style="position:absolute;inset:0;border:3px solid rgba(71,78,183,0.2);pointer-events:none;"></div>
+              </div>
+            </div>
+            <div style="text-align:center;">
+              <div style="font-family:'Space Grotesk',sans-serif;font-size:0.95rem;font-weight:900;color:#474eb7;letter-spacing:-0.02em;">DESIGNER_ADMIN</div>
+              <div style="font-family:'Work Sans',sans-serif;font-size:10px;color:#5d5e5f;font-weight:700;text-transform:uppercase;letter-spacing:0.08em;">Access Level: Root</div>
+            </div>
+          </div>
+          <!-- Details -->
+          <div style="flex:1;min-width:200px;display:flex;flex-direction:column;gap:8px;">
+            <div>
+              <label style="font-family:'Work Sans',sans-serif;font-size:10px;font-weight:700;text-transform:uppercase;color:#5d5e5f;display:block;padding:0 2px;">Identity Node:</label>
+              <div class="bevel-in" style="background:#fff;padding:4px 8px;font-family:'Work Sans',sans-serif;font-size:12px;color:#1a1c1c;">
+                Creative Director // Archive Division
+              </div>
+            </div>
+            <div>
+              <label style="font-family:'Work Sans',sans-serif;font-size:10px;font-weight:700;text-transform:uppercase;color:#5d5e5f;display:block;padding:0 2px;">System Bio:</label>
+              <div class="bevel-in" style="background:#fff;padding:8px;font-family:'Work Sans',sans-serif;font-size:11px;color:#1a1c1c;line-height:1.6;min-height:100px;">
+                Specializing in the curation of digital heritage. I architect interfaces that bridge the gap between human memory and silicon logic.
+                <br/><br/>
+                Current directive: Reclaiming the tactile rigidity of the early web for the high-end editorial era.
+                <br/><br/>
+                <span style="color:#474eb7;font-weight:700;"># STATUS: ONLINE</span>
+              </div>
+            </div>
+            <div style="display:grid;grid-template-columns:1fr 1fr;gap:6px;">
+              <div class="bevel-out" style="background:#faf9f9;padding:5px 7px;display:flex;align-items:center;gap:5px;">
+                <span class="material-symbols-outlined" style="font-size:15px;color:#5d5e5f;">database</span>
+                <div>
+                  <div style="font-size:9px;font-family:'Work Sans',sans-serif;font-weight:700;text-transform:uppercase;color:#5d5e5f;">Data Usage</div>
+                  <div style="font-size:11px;font-family:'Work Sans',sans-serif;font-weight:900;color:#1a1c1c;">1.44 MB / 2 GB</div>
+                </div>
+              </div>
+              <div class="bevel-out" style="background:#faf9f9;padding:5px 7px;display:flex;align-items:center;gap:5px;">
+                <span class="material-symbols-outlined" style="font-size:15px;color:#5d5e5f;">lan</span>
+                <div>
+                  <div style="font-size:9px;font-family:'Work Sans',sans-serif;font-weight:700;text-transform:uppercase;color:#5d5e5f;">Bandwidth</div>
+                  <div style="font-size:11px;font-family:'Work Sans',sans-serif;font-weight:900;color:#1a1c1c;">TCP/IP Ready</div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <!-- Actions -->
+        <div style="padding:8px 10px;display:flex;justify-content:flex-end;gap:6px;">
+          <button class="bevel-out" style="background:#dadada;padding:4px 18px;font-size:12px;font-family:'Work Sans',sans-serif;font-weight:700;cursor:pointer;" onclick="openView('desktop')">OK</button>
+          <button class="bevel-out" style="background:#dadada;padding:4px 18px;font-size:12px;font-family:'Work Sans',sans-serif;font-weight:700;cursor:pointer;" onclick="openView('desktop')">Cancel</button>
+          <button class="bevel-out" style="background:#dadada;padding:4px 18px;font-size:12px;font-family:'Work Sans',sans-serif;font-weight:700;cursor:not-allowed;opacity:0.5;" disabled>Apply</button>
+        </div>
+      </div>
     </div>
-    <div id="bar-tray">
-      <div class="tray-item"><span class="tray-icon">󰍛</span><span id="tray-ram">1.2GB</span></div>
-      <div class="tray-item tray-warn"><span class="tray-icon">󰁹</span><span>46%</span></div>
-      <div class="tray-item"><span class="tray-icon">󰖩</span><span>arch</span></div>
+
+    <!-- ====== PORTFOLIO VIEW ====== -->
+    <div id="view-portfolio" class="view desktop" style="align-items:center;justify-content:center;padding:16px;">
+      <div class="bevel-out" style="background:#dadada;width:100%;max-width:680px;max-height:calc(100vh - 80px);display:flex;flex-direction:column;">
+        <div class="title-bar" style="height:28px;display:flex;align-items:center;padding:0 4px;justify-content:space-between;flex-shrink:0;">
+          <div style="display:flex;align-items:center;gap:6px;padding:0 4px;">
+            <span class="material-symbols-outlined text-white" style="font-size:13px;">folder_special</span>
+            <span style="color:#fff;font-family:'Space Grotesk',sans-serif;font-weight:700;font-size:12px;">Portfolio — C:\Projects\</span>
+          </div>
+          <div style="display:flex;gap:2px;">
+            <button class="win-btn">_</button>
+            <button class="win-btn">□</button>
+            <button class="win-btn" onclick="openView('desktop')">×</button>
+          </div>
+        </div>
+        <div style="background:#dadada;padding:2px 5px;border-bottom:1px solid #b0b0b0;display:flex;align-items:center;gap:6px;flex-shrink:0;">
+          <button onclick="openView('desktop')" style="display:flex;align-items:center;gap:2px;font-size:11px;font-family:'Work Sans',sans-serif;font-weight:600;background:none;border:none;cursor:pointer;padding:2px 4px;">
+            <span class="material-symbols-outlined" style="font-size:15px;">arrow_back</span>Back
+          </button>
+          <div style="height:1px;flex:1;background:#b0b0b0;"></div>
+          <span style="font-size:10px;font-family:'Work Sans',sans-serif;font-weight:600;color:#5d5e5f;">Icons view</span>
+        </div>
+        <div style="display:flex;flex:1;overflow:hidden;">
+          <!-- Sidebar -->
+          <div style="width:130px;flex-shrink:0;background:#f4f3f3;border-right:1px solid #b0b0b0;padding:6px;display:flex;flex-direction:column;gap:4px;overflow-y:auto;">
+            <div style="font-size:10px;font-family:'Work Sans',sans-serif;font-weight:700;text-transform:uppercase;color:#5d5e5f;margin-bottom:3px;">Folders</div>
+            <div class="bevel-in" style="display:flex;align-items:center;gap:3px;cursor:pointer;padding:2px 4px;background:#dadada;">
+              <span class="material-symbols-outlined" style="font-size:13px;color:#006565;">folder_open</span>
+              <span style="font-size:11px;font-family:'Work Sans',sans-serif;font-weight:600;">Projects</span>
+            </div>
+            <div style="display:flex;align-items:center;gap:3px;cursor:pointer;padding:2px 4px 2px 14px;">
+              <span class="material-symbols-outlined" style="font-size:12px;color:#474eb7;">folder</span>
+              <span style="font-size:11px;font-family:'Work Sans',sans-serif;">Design_2024</span>
+            </div>
+            <div style="display:flex;align-items:center;gap:3px;cursor:pointer;padding:2px 4px 2px 14px;">
+              <span class="material-symbols-outlined" style="font-size:12px;color:#474eb7;">folder</span>
+              <span style="font-size:11px;font-family:'Work Sans',sans-serif;">Source_Code</span>
+            </div>
+            <div style="display:flex;align-items:center;gap:3px;cursor:pointer;padding:2px 4px 2px 14px;">
+              <span class="material-symbols-outlined" style="font-size:12px;color:#474eb7;">folder</span>
+              <span style="font-size:11px;font-family:'Work Sans',sans-serif;">Art_Assets</span>
+            </div>
+          </div>
+          <!-- File grid -->
+          <div class="bevel-in" style="flex:1;background:#fff;padding:14px;overflow-y:auto;">
+            <div style="display:grid;grid-template-columns:repeat(auto-fill,minmax(100px,1fr));gap:12px;">
+              <div class="proj-card" style="display:flex;flex-direction:column;align-items:center;gap:3px;cursor:pointer;padding:6px;">
+                <div class="bevel-out" style="width:72px;height:56px;background:#dadada;display:flex;align-items:center;justify-content:center;">
+                  <span class="material-symbols-outlined" style="font-size:28px;color:#474eb7;">web</span>
+                </div>
+                <span style="font-size:10px;font-family:'Work Sans',sans-serif;font-weight:600;text-align:center;padding:1px 3px;">OS_Portfolio.exe</span>
+                <span style="font-size:9px;font-family:'Work Sans',sans-serif;color:#5d5e5f;">Application</span>
+              </div>
+              <div class="proj-card" style="display:flex;flex-direction:column;align-items:center;gap:3px;cursor:pointer;padding:6px;">
+                <div class="bevel-out" style="width:72px;height:56px;background:#dadada;display:flex;align-items:center;justify-content:center;">
+                  <span class="material-symbols-outlined" style="font-size:28px;color:#006565;">palette</span>
+                </div>
+                <span style="font-size:10px;font-family:'Work Sans',sans-serif;font-weight:600;text-align:center;padding:1px 3px;">Design_System.psd</span>
+                <span style="font-size:9px;font-family:'Work Sans',sans-serif;color:#5d5e5f;">Photoshop</span>
+              </div>
+              <div class="proj-card" style="display:flex;flex-direction:column;align-items:center;gap:3px;cursor:pointer;padding:6px;">
+                <div class="bevel-out" style="width:72px;height:56px;background:#dadada;display:flex;align-items:center;justify-content:center;">
+                  <span class="material-symbols-outlined" style="font-size:28px;color:#474eb7;">code</span>
+                </div>
+                <span style="font-size:10px;font-family:'Work Sans',sans-serif;font-weight:600;text-align:center;padding:1px 3px;">Archive_UI.html</span>
+                <span style="font-size:9px;font-family:'Work Sans',sans-serif;color:#5d5e5f;">HTML File</span>
+              </div>
+              <div class="proj-card" style="display:flex;flex-direction:column;align-items:center;gap:3px;cursor:pointer;padding:6px;">
+                <div class="bevel-out" style="width:72px;height:56px;background:#dadada;display:flex;align-items:center;justify-content:center;">
+                  <span class="material-symbols-outlined" style="font-size:28px;color:#5d5e5f;">image</span>
+                </div>
+                <span style="font-size:10px;font-family:'Work Sans',sans-serif;font-weight:600;text-align:center;padding:1px 3px;">Retro_UI.jpg</span>
+                <span style="font-size:9px;font-family:'Work Sans',sans-serif;color:#5d5e5f;">JPEG Image</span>
+              </div>
+              <div class="proj-card" style="display:flex;flex-direction:column;align-items:center;gap:3px;cursor:pointer;padding:6px;">
+                <div class="bevel-out" style="width:72px;height:56px;background:#dadada;display:flex;align-items:center;justify-content:center;">
+                  <span class="material-symbols-outlined" style="font-size:28px;color:#474eb7;">description</span>
+                </div>
+                <span style="font-size:10px;font-family:'Work Sans',sans-serif;font-weight:600;text-align:center;padding:1px 3px;">readme.txt</span>
+                <span style="font-size:9px;font-family:'Work Sans',sans-serif;color:#5d5e5f;">Text File</span>
+              </div>
+              <div class="proj-card" style="display:flex;flex-direction:column;align-items:center;gap:3px;cursor:pointer;padding:6px;">
+                <div class="bevel-out" style="width:72px;height:56px;background:#dadada;display:flex;align-items:center;justify-content:center;">
+                  <span class="material-symbols-outlined" style="font-size:28px;color:#006565;">data_object</span>
+                </div>
+                <span style="font-size:10px;font-family:'Work Sans',sans-serif;font-weight:600;text-align:center;padding:1px 3px;">config.json</span>
+                <span style="font-size:9px;font-family:'Work Sans',sans-serif;color:#5d5e5f;">JSON File</span>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div style="background:#dadada;padding:2px 5px;display:flex;gap:4px;flex-shrink:0;">
+          <div class="bevel-in" style="flex:1;padding:1px 6px;font-size:10px;font-family:'Work Sans',sans-serif;font-weight:600;color:#5d5e5f;">6 objects • 4.7 MB</div>
+          <div class="bevel-in" style="width:90px;padding:1px 6px;font-size:10px;font-family:'Work Sans',sans-serif;font-weight:600;color:#5d5e5f;text-align:right;">Ready</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- ====== CONTACT / MAIL VIEW ====== -->
+    <div id="view-contact" class="view desktop" style="align-items:center;justify-content:center;padding:16px;">
+      <div class="bevel-out" style="background:#dadada;width:100%;max-width:620px;display:flex;flex-direction:column;">
+        <div class="title-bar" style="height:28px;display:flex;align-items:center;padding:0 4px;justify-content:space-between;">
+          <div style="display:flex;align-items:center;gap:6px;padding:0 4px;">
+            <span class="material-symbols-outlined text-white" style="font-size:13px;font-variation-settings:'FILL' 1;">mail</span>
+            <span style="color:#fff;font-family:'Space Grotesk',sans-serif;font-weight:700;font-size:12px;">New Message — Outlook Express</span>
+          </div>
+          <div style="display:flex;gap:2px;">
+            <button class="win-btn">_</button>
+            <button class="win-btn">□</button>
+            <button class="win-btn" onclick="openView('desktop')">×</button>
+          </div>
+        </div>
+        <!-- Mail toolbar -->
+        <div style="background:#dadada;padding:3px 3px;border-bottom:1px solid #b0b0b0;display:flex;gap:1px;flex-wrap:wrap;">
+          <button style="display:flex;flex-direction:column;align-items:center;padding:3px 10px;background:none;border:none;cursor:pointer;font-family:'Work Sans',sans-serif;font-size:10px;font-weight:700;text-transform:uppercase;">
+            <span class="material-symbols-outlined" style="font-size:24px;color:#474eb7;">send</span>Send
+          </button>
+          <div style="width:1px;background:#b0b0b0;margin:2px 3px;align-self:stretch;"></div>
+          <button style="display:flex;flex-direction:column;align-items:center;padding:3px 8px;background:none;border:none;cursor:pointer;font-family:'Work Sans',sans-serif;font-size:10px;font-weight:700;text-transform:uppercase;">
+            <span class="material-symbols-outlined" style="font-size:20px;color:#5d5e5f;">attach_file</span>Attach
+          </button>
+          <button style="display:flex;flex-direction:column;align-items:center;padding:3px 8px;background:none;border:none;cursor:pointer;font-family:'Work Sans',sans-serif;font-size:10px;font-weight:700;text-transform:uppercase;">
+            <span class="material-symbols-outlined" style="font-size:20px;color:#5d5e5f;">content_cut</span>Cut
+          </button>
+          <button style="display:flex;flex-direction:column;align-items:center;padding:3px 8px;background:none;border:none;cursor:pointer;font-family:'Work Sans',sans-serif;font-size:10px;font-weight:700;text-transform:uppercase;">
+            <span class="material-symbols-outlined" style="font-size:20px;color:#5d5e5f;">content_copy</span>Copy
+          </button>
+          <button style="display:flex;flex-direction:column;align-items:center;padding:3px 8px;background:none;border:none;cursor:pointer;font-family:'Work Sans',sans-serif;font-size:10px;font-weight:700;text-transform:uppercase;">
+            <span class="material-symbols-outlined" style="font-size:20px;color:#5d5e5f;">content_paste</span>Paste
+          </button>
+        </div>
+        <!-- Headers -->
+        <div style="background:#dadada;padding:6px 10px;display:flex;flex-direction:column;gap:5px;">
+          <div style="display:flex;align-items:center;gap:6px;">
+            <label style="width:52px;font-family:'Work Sans',sans-serif;font-size:12px;font-weight:700;color:#5d5e5f;flex-shrink:0;">To:</label>
+            <div class="bevel-in" style="flex:1;background:#fff;padding:3px 7px;font-family:'Work Sans',sans-serif;font-size:12px;color:#1a1c1c;">darsanaarun.sg@gmail.com</div>
+          </div>
+          <div style="display:flex;align-items:center;gap:6px;">
+            <label style="width:52px;font-family:'Work Sans',sans-serif;font-size:12px;font-weight:700;color:#5d5e5f;flex-shrink:0;">Subject:</label>
+            <input type="text" placeholder="Project Inquiry" style="flex:1;border-top:2px solid #5d5e5f;border-left:2px solid #5d5e5f;border-bottom:2px solid #fff;border-right:2px solid #fff;background:#fff;padding:3px 7px;font-family:'Work Sans',sans-serif;font-size:12px;outline:none;" />
+          </div>
+        </div>
+        <!-- Message area -->
+        <div style="padding:0 10px 8px;flex:1;display:flex;flex-direction:column;">
+          <div class="bevel-in" style="flex:1;background:#fff;padding:8px;display:flex;flex-direction:column;">
+            <textarea placeholder="Type your message here..." style="width:100%;min-height:190px;resize:none;border:none;outline:none;font-family:'Work Sans',sans-serif;font-size:13px;line-height:1.7;color:#1a1c1c;background:transparent;"></textarea>
+          </div>
+        </div>
+        <!-- Status bar -->
+        <div style="background:#dadada;padding:2px 5px;display:flex;gap:3px;">
+          <div class="bevel-in" style="flex:1;padding:1px 5px;font-size:10px;font-family:'Work Sans',sans-serif;font-weight:700;text-transform:uppercase;color:#5d5e5f;">Ready</div>
+          <div class="bevel-in" style="width:70px;padding:1px 5px;font-size:10px;font-family:'Work Sans',sans-serif;font-weight:700;text-transform:uppercase;color:#5d5e5f;">Offline</div>
+        </div>
+      </div>
+    </div>
+
+  </div><!-- end view container -->
+
+  <!-- ====== START MENU ====== -->
+  <div id="menu-overlay" onclick="closeStartMenu()"></div>
+  <div id="start-menu">
+    <div class="start-menu-header">The Digital Archivist</div>
+    <div class="start-menu-items">
+      <div class="start-menu-item" onclick="openView('desktop');closeStartMenu();">
+        <span class="material-symbols-outlined" style="font-size:17px;color:#474eb7;">home</span>Desktop
+      </div>
+      <div class="start-menu-item" onclick="openView('portfolio');closeStartMenu();">
+        <span class="material-symbols-outlined" style="font-size:17px;color:#006565;">folder_special</span>Portfolio
+      </div>
+      <div class="start-menu-item" onclick="openView('about');closeStartMenu();">
+        <span class="material-symbols-outlined" style="font-size:17px;color:#5d5e5f;">person</span>About Me
+      </div>
+      <div class="start-menu-item" onclick="openView('contact');closeStartMenu();">
+        <span class="material-symbols-outlined" style="font-size:17px;color:#474eb7;">mail</span>Contact
+      </div>
+      <div class="start-menu-divider"></div>
+      <div class="start-menu-item" style="opacity:0.45;cursor:not-allowed;">
+        <span class="material-symbols-outlined" style="font-size:17px;color:#5d5e5f;">settings</span>Settings
+      </div>
+      <div class="start-menu-item" style="opacity:0.45;cursor:not-allowed;">
+        <span class="material-symbols-outlined" style="font-size:17px;color:#ba1a1a;">power_settings_new</span>Shut Down
+      </div>
     </div>
   </div>
 
-  <!-- ══ DESKTOP ══════════════════════════════════════════════ -->
-  <div id="desktop">
-
-    <!-- ══ TERMINAL / NEOFETCH WINDOW ══ -->
-    <div class="win" id="win-terminal" data-title="zsh" style="left:20px; top:20px; width:620px; height:420px;">
-      <div class="win-titlebar">
-        <div class="win-controls">
-          <button class="wc-btn wc-close" onclick="WM.close('terminal')"></button>
-          <button class="wc-btn wc-min" onclick="WM.minimize('terminal')"></button>
-          <button class="wc-btn wc-max" onclick="WM.maximize('terminal')"></button>
-        </div>
-        <div class="win-title-tab active-tab"><span class="tab-icon">▶</span>zsh</div>
-        <div class="win-title-spacer"></div>
-      </div>
-      <div class="win-body">
-        <div class="term-body" id="term-container">
-          <!-- Prompt line 1 -->
-          <div class="t-line">
-            <span class="t-user">advaith</span><span class="t-at">@</span><span class="t-host">archlinux</span>
-            <span class="t-sep"> in </span><span class="t-path">~/.config</span>
-            <span class="t-sep"> in </span><span class="t-git">master✔ 26-04-21 · 14:18:43</span>
-          </div>
-          <div class="t-line t-dim">❯ neofetch</div>
-          <div class="neofetch-wrap">
-            <div class="nf-ascii"> .+
-              .ooo/
-              +oooo:
-              +oooooo:
-              -+oooooo+:
-              -/++++++:
-              -/++oooooooo+
-              -/+++oooooooo+
-              ./oossssso++osssss+
-              ./ossssssso- osssss+
-              /ossssssso: osssss+
-              +sssssssso: +ssssso
-              .ssssssso: +ssssso
-              /sssssso: -osssso/
-              -/+oso+-:/-+ossso/
-              -:+/ -/+osso/-
-              -:/+oso/-
-              -/- </div>
-            <div class="nf-info">
-              <div class="nf-info-row"><span class="nf-key"
-                  style="color:var(--accent2);font-weight:700;">advaith</span><span class="nf-val"
-                  style="color:var(--text3);">@</span><span class="nf-key"
-                  style="color:var(--accent2);font-weight:700;">archlinux</span></div>
-              <div class="nf-info-row" style="color:var(--text3);">─────────────────────</div>
-              <div class="nf-info-row"><span class="nf-info-key">OS</span><span class="nf-info-val">Arch Linux
-                  x86_64</span></div>
-              <div class="nf-info-row"><span class="nf-info-key">Host</span><span class="nf-info-val">Portfolio
-                  1.0</span></div>
-              <div class="nf-info-row"><span class="nf-info-key">Kernel</span><span
-                  class="nf-info-val">6.8.0-arch1-1</span></div>
-              <div class="nf-info-row"><span class="nf-info-key">Uptime</span><span class="nf-info-val">4 hours, 12
-                  mins</span></div>
-              <div class="nf-info-row"><span class="nf-info-key">Shell</span><span class="nf-info-val">zsh 5.9</span>
-              </div>
-              <div class="nf-info-row"><span class="nf-info-key">Resolution</span><span
-                  class="nf-info-val">1920×1080</span></div>
-              <div class="nf-info-row"><span class="nf-info-key">WM</span><span class="nf-info-val">i3</span></div>
-              <div class="nf-info-row"><span class="nf-info-key">Theme</span><span class="nf-info-val">Catppuccin
-                  Mocha</span></div>
-              <div class="nf-info-row"><span class="nf-info-key">Terminal Font</span><span class="nf-info-val">JetBrains
-                  Mono 12</span></div>
-              <div class="nf-info-row"><span class="nf-info-key">CPU</span><span class="nf-info-val">AMD Ryzen 9 5900X @
-                  3.7GHz</span></div>
-              <div class="nf-info-row"><span class="nf-info-key">Memory</span><span class="nf-info-val">1.2GB /
-                  16GB</span></div>
-              <div class="nf-colors">
-                <div class="nf-color-swatch" style="background:#1e1e2e;border:1px solid #333;"></div>
-                <div class="nf-color-swatch" style="background:#f38ba8;"></div>
-                <div class="nf-color-swatch" style="background:#a6e3a1;"></div>
-                <div class="nf-color-swatch" style="background:#f9e2af;"></div>
-                <div class="nf-color-swatch" style="background:#89b4fa;"></div>
-                <div class="nf-color-swatch" style="background:#cba6f7;"></div>
-                <div class="nf-color-swatch" style="background:#2dd4bf;"></div>
-                <div class="nf-color-swatch" style="background:#cdd6f4;"></div>
-              </div>
-            </div>
-          </div>
-          <!-- Second prompt + interactive input -->
-          <div class="t-line" style="margin-top:4px;">
-            <span class="t-user">advaith</span><span class="t-at">@</span><span class="t-host">archlinux</span>
-            <span class="t-sep"> in </span><span class="t-path">~/.config</span>
-            <span class="t-sep"> in </span><span class="t-git">master✔ 26-04-21 · 14:19:54</span>
-          </div>
-          <div class="t-output" id="term-output"></div>
-          <div class="t-input-wrap" id="term-input-wrap">
-            <span class="t-ps1"><span class="t-dollar">❯ </span></span>
-            <input class="t-input" id="term-input" type="text" autocomplete="off" spellcheck="false" />
-          </div>
-        </div>
-      </div>
-      <div class="win-statusbar green">
-        <span>NORMAL</span><span class="ws-sep"> │ </span>
-        <span>zsh</span><span class="ws-sep"> │ </span>
-        <span>advaith@archlinux</span>
-      </div>
+  <!-- ====== TASKBAR ====== -->
+  <footer style="background:#dadada;height:44px;display:flex;align-items:center;gap:2px;padding:0 4px;border-top:2px solid #fff;flex-shrink:0;position:relative;z-index:100;">
+    <button class="start-btn" onclick="toggleStartMenu()">
+      <span class="material-symbols-outlined" style="font-size:17px;color:#1a3a8a;font-variation-settings:'wght' 700;">menu</span>
+      <span style="font-family:'Space Grotesk',sans-serif;font-weight:900;font-style:italic;text-transform:uppercase;font-size:13px;color:#1a3a8a;">Start</span>
+    </button>
+    <div style="width:1px;height:28px;border-left:1px solid #999;border-right:1px solid #fff;margin:0 3px;"></div>
+    <button id="tab-desktop" class="taskbar-btn active" onclick="openView('desktop')">
+      <span class="material-symbols-outlined" style="font-size:13px;">desktop_windows</span>
+      <span>Desktop</span>
+    </button>
+    <button id="tab-portfolio" class="taskbar-btn" onclick="openView('portfolio')">
+      <span class="material-symbols-outlined" style="font-size:13px;">folder_special</span>
+      <span class="hidden sm:inline">Portfolio</span>
+    </button>
+    <button id="tab-about" class="taskbar-btn" onclick="openView('about')">
+      <span class="material-symbols-outlined" style="font-size:13px;">person</span>
+      <span class="hidden sm:inline">About</span>
+    </button>
+    <button id="tab-contact" class="taskbar-btn" onclick="openView('contact')">
+      <span class="material-symbols-outlined" style="font-size:13px;font-variation-settings:'FILL' 1;">mail</span>
+      <span class="hidden sm:inline">Contact</span>
+    </button>
+    <div class="sys-tray">
+      <span class="material-symbols-outlined" style="font-size:13px;color:#5d5e5f;">volume_up</span>
+      <span id="clock"></span>
     </div>
-
-    <!-- ══ PROJECTS WINDOW (NvimTree + Editor split) ══ -->
-    <div class="win" id="win-projects" data-title="projects" style="left:20px; top:20px; width:820px; height:500px;">
-      <div class="win-titlebar">
-        <div class="win-controls">
-          <button class="wc-btn wc-close" onclick="WM.close('projects')"></button>
-          <button class="wc-btn wc-min" onclick="WM.minimize('projects')"></button>
-          <button class="wc-btn wc-max" onclick="WM.maximize('projects')"></button>
-        </div>
-        <div class="win-title-tab active-tab"><span class="tab-icon">▶</span>projects/ — nvim</div>
-        <div class="win-title-spacer"></div>
-      </div>
-      <div class="win-body">
-        <div class="split-h" style="height:100%;">
-          <!-- File tree -->
-          <div class="split-pane" style="width:200px; flex-shrink:0;">
-            <div class="pane-titlebar">
-              <span class="pane-tb-name">NvimTree_1</span>
-              <span class="pane-tb-git" style="margin-left:auto;">master✔</span>
-            </div>
-            <div class="filetree-body">
-              <div class="ft-row ft-dir" style="padding-left:8px;"><span class="ft-icon dir">▼</span>~/projects</div>
-              <div class="ft-row ft-active" style="padding-left:20px;" onclick="showProject(0)"><span
-                  class="ft-icon py">▷</span>momentum-ml</div>
-              <div class="ft-row" style="padding-left:20px;" onclick="showProject(1)"><span
-                  class="ft-icon py">▷</span>shannon-entropy</div>
-              <div class="ft-row" style="padding-left:20px;" onclick="showProject(2)"><span
-                  class="ft-icon py">▷</span>finance-tracker</div>
-              <div class="ft-row ft-dir" style="padding-left:8px; margin-top:4px;"><span
-                  class="ft-icon dir">▼</span>~/config</div>
-              <div class="ft-row" style="padding-left:20px;"><span class="ft-icon git">.git</span></div>
-              <div class="ft-row" style="padding-left:20px;"><span class="ft-icon md">README.md</span></div>
-              <div class="ft-row" style="padding-left:20px;"><span class="ft-icon py">requirements.txt</span></div>
-            </div>
-          </div>
-          <div class="split-divider-v"></div>
-          <!-- Editor -->
-          <div class="split-pane" style="flex:1;">
-            <div class="pane-titlebar" id="proj-tab-bar">
-              <span class="tab-icon" style="color:var(--text3);">◆</span>
-              <span class="pane-tb-name" id="proj-filename">momentum-ml/README.md</span>
-              <span class="pane-tb-git" style="margin-left:auto; color:var(--text3);">utf-8 · md</span>
-            </div>
-            <div class="editor-body">
-              <div class="editor-gutter" id="proj-gutter"></div>
-              <div class="editor-content win-body-scroll" id="proj-content"></div>
-            </div>
-          </div>
-        </div>
-      </div>
-      <div class="win-statusbar mauve">
-        <span>NORMAL</span><span class="ws-sep"> │ </span>
-        <span id="proj-status-name">momentum-ml</span><span class="ws-sep"> │ </span>
-        <span>master✔</span><span class="ws-sep"> │ </span>
-        <span>github.com/advaithprabhudev</span>
-      </div>
-    </div>
-
-    <!-- ══ SKILLS WINDOW ══ -->
-    <div class="win" id="win-skills" data-title="skills" style="left:60px; top:60px; width:500px; height:480px;">
-      <div class="win-titlebar">
-        <div class="win-controls">
-          <button class="wc-btn wc-close" onclick="WM.close('skills')"></button>
-          <button class="wc-btn wc-min" onclick="WM.minimize('skills')"></button>
-          <button class="wc-btn wc-max" onclick="WM.maximize('skills')"></button>
-        </div>
-        <div class="win-title-tab active-tab"><span class="tab-icon">▶</span>skills.py — python</div>
-        <div class="win-title-spacer"></div>
-      </div>
-      <div class="win-body">
-        <div class="info-body">
-          <div>
-            <div class="info-section-title">Languages</div>
-            <div class="chips">
-              <div class="chip">Python</div>
-              <div class="chip">R</div>
-              <div class="chip">SQL</div>
-            </div>
-          </div>
-          <div>
-            <div class="info-section-title">Data Science &amp; Finance</div>
-            <div class="chips">
-              <div class="chip">NumPy</div>
-              <div class="chip">Pandas</div>
-              <div class="chip">YFinance</div>
-              <div class="chip">QuantLib</div>
-              <div class="chip">Matplotlib</div>
-              <div class="chip">Plotly</div>
-              <div class="chip">Streamlit</div>
-            </div>
-          </div>
-          <div>
-            <div class="info-section-title">Machine Learning</div>
-            <div class="chips">
-              <div class="chip">Scikit-Learn</div>
-              <div class="chip">PyTorch</div>
-            </div>
-          </div>
-          <div>
-            <div class="info-section-title">Databases &amp; Tools</div>
-            <div class="chips">
-              <div class="chip">MongoDB</div>
-              <div class="chip">MySQL</div>
-              <div class="chip">Git</div>
-              <div class="chip">GitHub</div>
-            </div>
-          </div>
-          <div>
-            <div class="info-section-title">Proficiency</div>
-            <div id="skill-bars">
-              <div class="skill-row">
-                <div class="skill-label-row"><span>Python</span><span>95%</span></div>
-                <div class="skill-track">
-                  <div class="skill-fill" data-w="95"></div>
-                </div>
-              </div>
-              <div class="skill-row">
-                <div class="skill-label-row"><span>Data Analysis</span><span>88%</span></div>
-                <div class="skill-track">
-                  <div class="skill-fill" data-w="88"></div>
-                </div>
-              </div>
-              <div class="skill-row">
-                <div class="skill-label-row"><span>Quantitative Finance</span><span>82%</span></div>
-                <div class="skill-track">
-                  <div class="skill-fill" data-w="82"></div>
-                </div>
-              </div>
-              <div class="skill-row">
-                <div class="skill-label-row"><span>Machine Learning</span><span>78%</span></div>
-                <div class="skill-track">
-                  <div class="skill-fill" data-w="78"></div>
-                </div>
-              </div>
-              <div class="skill-row">
-                <div class="skill-label-row"><span>R</span><span>65%</span></div>
-                <div class="skill-track">
-                  <div class="skill-fill" data-w="65"></div>
-                </div>
-              </div>
-            </div>
-          </div>
-        </div>
-      </div>
-      <div class="win-statusbar">
-        <span>NORMAL</span><span class="ws-sep"> │ </span>
-        <span>skills.py</span><span class="ws-sep"> │ </span>
-        <span>python3</span>
-      </div>
-    </div>
-
-    <!-- ══ ABOUT WINDOW ══ -->
-    <div class="win" id="win-about" data-title="about" style="left:80px; top:80px; width:560px; height:380px;">
-      <div class="win-titlebar">
-        <div class="win-controls">
-          <button class="wc-btn wc-close" onclick="WM.close('about')"></button>
-          <button class="wc-btn wc-min" onclick="WM.minimize('about')"></button>
-          <button class="wc-btn wc-max" onclick="WM.maximize('about')"></button>
-        </div>
-        <div class="win-title-tab active-tab"><span class="tab-icon">▶</span>about.md — nvim</div>
-        <div class="win-title-spacer"></div>
-      </div>
-      <div class="win-body">
-        <div class="split-h" style="height:100%;">
-          <div class="editor-gutter">
-            1<br>2<br>3<br>4<br>5<br>6<br>7<br>8<br>9<br>10<br>11<br>12<br>13<br>14<br>15<br>16<br>17<br>18
-          </div>
-          <div class="editor-content win-body-scroll" style="display:flex; gap:24px;">
-            <div style="flex:1;">
-              <div class="e-h1"># Advaith Prabhu</div>
-              <br>
-              <div class="e-h2">## About</div>
-              <br>
-              <div>I'm a student at <span class="e-str">GIIS</span> with a passion for building</div>
-              <div>models that solve real-world problems in finance.</div>
-              <div>I love exploring how data can tell stories and</div>
-              <div>predict outcomes.</div>
-              <br>
-              <div class="e-h2">## Focus</div>
-              <br>
-              <div><span class="e-kw">- </span>Quantitative Finance</div>
-              <div><span class="e-kw">- </span>Machine Learning</div>
-              <div><span class="e-kw">- </span>Statistical Modelling</div>
-              <div><span class="e-kw">- </span>Algorithmic Trading</div>
-              <br>
-              <div class="e-h2">## Contact</div>
-              <br>
-              <div><span class="e-kw">- </span>GitHub: <span class="e-link">advaithprabhudev</span></div>
-              <div><span class="e-kw">- </span>LinkedIn: <span class="e-link">advaith-prabhu</span></div>
-            </div>
-            <div
-              style="flex-shrink:0; display:flex; flex-direction:column; align-items:center; gap:10px; padding-top:8px;">
-              <img src="uploads/avatar-1777620007227.png" alt="Advaith"
-                style="width:72px;height:72px;border-radius:50%;border:1px solid var(--border2);object-fit:cover;" />
-              <div style="font-size:10px;color:var(--text3);text-align:center;">advaith@arch</div>
-            </div>
-          </div>
-        </div>
-      </div>
-      <div class="win-statusbar">
-        <span>NORMAL</span><span class="ws-sep"> │ </span>
-        <span>about.md</span><span class="ws-sep"> │ </span>
-        <span>markdown</span><span class="ws-sep"> │ </span>
-        <span>utf-8</span>
-      </div>
-    </div>
-
-    <!-- ══ CONTACT WINDOW ══ -->
-    <div class="win" id="win-contact" data-title="contact" style="left:100px; top:100px; width:440px; height:300px;">
-      <div class="win-titlebar">
-        <div class="win-controls">
-          <button class="wc-btn wc-close" onclick="WM.close('contact')"></button>
-          <button class="wc-btn wc-min" onclick="WM.minimize('contact')"></button>
-          <button class="wc-btn wc-max" onclick="WM.maximize('contact')"></button>
-        </div>
-        <div class="win-title-tab active-tab"><span class="tab-icon">▶</span>contact.sh</div>
-        <div class="win-title-spacer"></div>
-      </div>
-      <div class="win-body">
-        <div class="info-body">
-          <div class="info-section-title">Links</div>
-          <a class="contact-row" href="https://github.com/advaithprabhudev" target="_blank">
-            <div>
-              <div class="contact-platform">GitHub</div>
-              <div class="contact-url">github.com/advaithprabhudev</div>
-            </div>
-            <div class="contact-arrow">↗</div>
-          </a>
-          <a class="contact-row" href="https://www.linkedin.com/in/advaith-prabhu/" target="_blank">
-            <div>
-              <div class="contact-platform">LinkedIn</div>
-              <div class="contact-url">linkedin.com/in/advaith-prabhu</div>
-            </div>
-            <div class="contact-arrow">↗</div>
-          </a>
-        </div>
-      </div>
-      <div class="win-statusbar">
-        <span>NORMAL</span><span class="ws-sep"> │ </span><span>contact.sh</span>
-      </div>
-    </div>
-
-    <!-- ══ RESUME WINDOW ══ -->
-    <div class="win" id="win-resume" data-title="resume" style="left:120px; top:40px; width:700px; height:540px;">
-      <div class="win-titlebar">
-        <div class="win-controls">
-          <button class="wc-btn wc-close" onclick="WM.close('resume')"></button>
-          <button class="wc-btn wc-min" onclick="WM.minimize('resume')"></button>
-          <button class="wc-btn wc-max" onclick="WM.maximize('resume')"></button>
-        </div>
-        <div class="win-title-tab active-tab"><span class="tab-icon">▶</span>resume.pdf</div>
-        <div class="win-title-spacer"></div>
-      </div>
-      <div class="win-body">
-        <div class="resume-inner">
-          <div class="resume-toolbar">
-            <span class="resume-label">Advaith_Prabhu_Resume.pdf</span>
-            <a class="resume-dl" href="uploads/resume-1777620021379.pdf" download="Advaith_Prabhu_Resume.pdf">↓
-              Download</a>
-          </div>
-          <iframe src="uploads/resume-1777620021379.pdf" title="Resume"></iframe>
-        </div>
-      </div>
-      <div class="win-statusbar">
-        <span>VIEW</span><span class="ws-sep"> │ </span><span>resume.pdf</span><span class="ws-sep"> │ </span><span>PDF
-          Viewer</span>
-      </div>
-    </div>
-
-  </div><!-- /desktop -->
-
-  <!-- ══ TASKBAR ══════════════════════════════════════════════ -->
-  <div id="taskbar">
-    <div class="tb-start" onclick="WM.open('terminal')" title="Terminal">❯</div>
-    <div class="tb-divider"></div>
-    <div class="tb-apps" id="tb-apps"></div>
-    <div class="tb-tray">
-      <div class="tb-tray-item"><span>󰖩</span> arch</div>
-      <div class="tb-tray-item tb-clock" id="tb-clock"></div>
-    </div>
-  </div>
-
-  <!-- Scripts -->
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r134/three.min.js"></script>
-  <script src="js/three-scene.js"></script>
+  </footer>
 
   <script>
-    // ══ WINDOW MANAGER ══════════════════════════════════════════
-    let zTop = 100;
-    const WM = {
-      open(id) {
-        const win = document.getElementById('win-' + id);
-        if (!win) return;
-        win.style.display = 'flex';
-        win.classList.remove('minimized');
-        this.focus(win);
-        win.style.opacity = '0';
-        win.style.transform = 'scale(0.96)';
-        requestAnimationFrame(() => {
-          win.style.transition = 'opacity 140ms ease, transform 140ms ease';
-          win.style.opacity = '1';
-          win.style.transform = 'scale(1)';
-          setTimeout(() => { win.style.transition = ''; }, 150);
-        });
-        this.addTaskbarBtn(id);
-        // Side effects
-        if (id === 'skills') setTimeout(() => {
-          document.querySelectorAll('.skill-fill').forEach(el => { el.style.width = el.dataset.w + '%'; });
-        }, 200);
-        if (id === 'projects') setTimeout(() => renderProject(currentProject), 100);
-      },
-      close(id) {
-        const win = document.getElementById('win-' + id);
-        if (!win) return;
-        win.style.transition = 'opacity 120ms ease, transform 120ms ease';
-        win.style.opacity = '0';
-        win.style.transform = 'scale(0.96)';
-        setTimeout(() => {
-          win.style.display = 'none';
-          win.style.transition = win.style.transform = win.style.opacity = '';
-        }, 130);
-        this.removeTaskbarBtn(id);
-      },
-      minimize(id) {
-        const win = document.getElementById('win-' + id);
-        if (!win) return;
-        win.style.transition = 'opacity 120ms ease, transform 120ms ease';
-        win.style.opacity = '0';
-        win.style.transform = 'scale(0.9) translateY(20px)';
-        setTimeout(() => {
-          win.style.display = 'none';
-          win.classList.add('minimized');
-          win.style.transition = win.style.transform = win.style.opacity = '';
-        }, 130);
-        const btn = document.getElementById('tbbtn-' + id);
-        if (btn) btn.classList.remove('tb-active');
-      },
-      maximize(id) {
-        const win = document.getElementById('win-' + id);
-        if (!win) return;
-        if (win.dataset.max === '1') {
-          win.style.left = win.dataset.pl || '100px';
-          win.style.top = win.dataset.pt || '40px';
-          win.style.width = win.dataset.pw || '600px';
-          win.style.height = win.dataset.ph || '440px';
-          win.dataset.max = '0';
-        } else {
-          win.dataset.pl = win.style.left;
-          win.dataset.pt = win.style.top;
-          win.dataset.pw = win.style.width;
-          win.dataset.ph = win.style.height;
-          win.style.left = '0'; win.style.top = '0';
-          win.style.width = '100vw';
-          win.style.height = 'calc(100vh - ' + (26 + 40) + 'px)';
-          win.dataset.max = '1';
-        }
-      },
-      focus(win) {
-        document.querySelectorAll('.win').forEach(w => w.classList.remove('win-focused'));
-        win.classList.add('win-focused');
-        win.style.zIndex = ++zTop;
-      },
-      addTaskbarBtn(id) {
-        if (document.getElementById('tbbtn-' + id)) {
-          document.getElementById('tbbtn-' + id).classList.add('tb-active');
-          return;
-        }
-        const win = document.getElementById('win-' + id);
-        const title = win?.dataset.title || id;
-        const btn = document.createElement('div');
-        btn.className = 'tb-btn tb-active';
-        btn.id = 'tbbtn-' + id;
-        btn.innerHTML = `<span class="tb-btn-icon">❯</span>${title}`;
-        btn.onclick = () => {
-          const w = document.getElementById('win-' + id);
-          if (!w) return;
-          if (w.style.display === 'none' || w.classList.contains('minimized')) {
-            WM.open(id);
-          } else {
-            WM.minimize(id);
-          }
-        };
-        document.getElementById('tb-apps').appendChild(btn);
-      },
-      removeTaskbarBtn(id) {
-        document.getElementById('tbbtn-' + id)?.remove();
-      },
-      initDrag(win) {
-        const tb = win.querySelector('.win-titlebar');
-        if (!tb) return;
-        let drag = false, ox = 0, oy = 0;
-        tb.addEventListener('mousedown', e => {
-          if (e.target.closest('.win-controls')) return;
-          if (win.dataset.max === '1') return;
-          drag = true; ox = e.clientX - win.offsetLeft; oy = e.clientY - win.offsetTop;
-          WM.focus(win); e.preventDefault();
-        });
-        document.addEventListener('mousemove', e => {
-          if (!drag) return;
-          win.style.left = Math.max(0, Math.min(window.innerWidth - 80, e.clientX - ox)) + 'px';
-          win.style.top = Math.max(0, Math.min(window.innerHeight - 60, e.clientY - oy)) + 'px';
-        });
-        document.addEventListener('mouseup', () => { drag = false; });
-      },
-      initResize(win) {
-        const h = document.createElement('div');
-        h.className = 'win-resize-handle';
-        win.appendChild(h);
-        let r = false, sx, sy, sw, sh;
-        h.addEventListener('mousedown', e => {
-          r = true; sx = e.clientX; sy = e.clientY;
-          sw = win.offsetWidth; sh = win.offsetHeight; e.preventDefault();
-        });
-        document.addEventListener('mousemove', e => {
-          if (!r) return;
-          win.style.width = Math.max(300, sw + e.clientX - sx) + 'px';
-          win.style.height = Math.max(180, sh + e.clientY - sy) + 'px';
-        });
-        document.addEventListener('mouseup', () => { r = false; });
-      },
-      init() {
-        document.querySelectorAll('.win').forEach(win => {
-          this.initDrag(win);
-          this.initResize(win);
-          win.addEventListener('mousedown', () => this.focus(win));
-        });
-      }
-    };
-    WM.init();
+    // Init
+    window.addEventListener('DOMContentLoaded', () => openView('desktop'));
 
-    // ══ CLOCK ════════════════════════════════════════════════════
+    // Clock
     function updateClock() {
       const now = new Date();
-      const days = ['Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday'];
-      const months = ['January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December'];
-      document.getElementById('bar-date').textContent =
-        days[now.getDay()] + ', ' + now.getDate() + ' ' + months[now.getMonth()] + ' ' + now.getFullYear();
-      const h = String(now.getHours()).padStart(2, '0');
-      const m = String(now.getMinutes()).padStart(2, '0');
-      document.getElementById('bar-time').textContent = h + ':' + m;
-      document.getElementById('tb-clock').textContent = h + ':' + m;
+      let h = now.getHours(), m = now.getMinutes();
+      const ap = h >= 12 ? 'PM' : 'AM';
+      h = h % 12 || 12;
+      document.getElementById('clock').textContent = h + ':' + String(m).padStart(2,'0') + ' ' + ap;
     }
-    updateClock(); setInterval(updateClock, 10000);
+    updateClock();
+    setInterval(updateClock, 10000);
 
-    // ══ WORKSPACE SWITCHER ════════════════════════════════════════
-    function switchWS(n) {
-      document.querySelectorAll('.ws-item').forEach((el, i) => {
-        el.classList.toggle('ws-active', i + 1 === n);
-      });
-    }
-
-    // ══ PROJECT EDITOR ══════════════════════════════════════════
-    const PROJECTS = [
-      {
-        name: 'momentum-ml',
-        file: 'README.md',
-        lang: 'md',
-        lines: [
-          '<span class="e-h1"># Momentum Strategies with Machine Learning</span>',
-          '',
-          '<span class="e-h2">## Overview</span>',
-          '',
-          'Research applying <span class="e-str">machine learning</span> to momentum-based',
-          'trading strategies across multiple market regimes.',
-          '',
-          '<span class="e-h2">## Stack</span>',
-          '',
-          '<span class="e-kw">- </span>Python, Pandas, YFinance',
-          '<span class="e-kw">- </span>Scikit-Learn, PyTorch',
-          '<span class="e-kw">- </span>Matplotlib, Plotly',
-          '',
-          '<span class="e-h2">## Key Results</span>',
-          '',
-          'Backtested signals across <span class="e-num">5+</span> market regimes.',
-          'Sharpe ratio improvement of <span class="e-num">~0.4</span> vs baseline.',
-          '',
-          '<span class="e-link">[View on GitHub →](https://github.com/advaithprabhudev/Momentum-Research-Project)</span>',
-        ]
-      },
-      {
-        name: 'shannon-entropy',
-        file: 'analysis.py',
-        lang: 'python',
-        lines: [
-          '<span class="e-comment"># Shannon Entropy — Market Microstructure Analysis</span>',
-          '<span class="e-comment"># github.com/advaithprabhudev</span>',
-          '',
-          '<span class="e-kw">import</span> numpy <span class="e-kw">as</span> <span class="e-fn">np</span>',
-          '<span class="e-kw">import</span> pandas <span class="e-kw">as</span> <span class="e-fn">pd</span>',
-          '<span class="e-kw">from</span> scipy.stats <span class="e-kw">import</span> <span class="e-fn">entropy</span>',
-          '',
-          '<span class="e-kw">def</span> <span class="e-fn">shannon_entropy</span>(prices: <span class="e-cls">pd.Series</span>) -> <span class="e-cls">float</span>:',
-          '    <span class="e-str">"""Compute information entropy of price distribution."""</span>',
-          '    returns = prices.<span class="e-fn">pct_change</span>().<span class="e-fn">dropna</span>()',
-          '    hist, _ = np.<span class="e-fn">histogram</span>(returns, bins=<span class="e-num">50</span>, density=<span class="e-kw">True</span>)',
-          '    <span class="e-kw">return</span> <span class="e-fn">entropy</span>(hist + <span class="e-num">1e-10</span>)',
-          '',
-          '<span class="e-kw">def</span> <span class="e-fn">rolling_entropy</span>(prices, window=<span class="e-num">252</span>):',
-          '    <span class="e-kw">return</span> prices.<span class="e-fn">rolling</span>(window).<span class="e-fn">apply</span>(shannon_entropy)',
-        ]
-      },
-      {
-        name: 'finance-tracker',
-        file: 'tracker.py',
-        lang: 'python',
-        lines: [
-          '<span class="e-comment"># Automated Finance Tracker</span>',
-          '<span class="e-comment"># Streamlit + MongoDB + Plotly pipeline</span>',
-          '',
-          '<span class="e-kw">import</span> streamlit <span class="e-kw">as</span> <span class="e-fn">st</span>',
-          '<span class="e-kw">import</span> plotly.express <span class="e-kw">as</span> <span class="e-fn">px</span>',
-          '<span class="e-kw">from</span> pymongo <span class="e-kw">import</span> <span class="e-fn">MongoClient</span>',
-          '',
-          'client = <span class="e-fn">MongoClient</span>(<span class="e-str">"mongodb://localhost:27017"</span>)',
-          'db = client[<span class="e-str">"finance"</span>]',
-          '',
-          'st.<span class="e-fn">title</span>(<span class="e-str">"💹 Finance Dashboard"</span>)',
-          '',
-          'transactions = list(db.transactions.<span class="e-fn">find</span>())',
-          'df = pd.<span class="e-fn">DataFrame</span>(transactions)',
-          '',
-          'fig = px.<span class="e-fn">line</span>(df, x=<span class="e-str">"date"</span>, y=<span class="e-str">"amount"</span>,',
-          '           title=<span class="e-str">"Portfolio Over Time"</span>)',
-          'st.<span class="e-fn">plotly_chart</span>(fig)',
-        ]
-      }
-    ];
-
-    let currentProject = 0;
-    function renderProject(idx) {
-      currentProject = idx;
-      const p = PROJECTS[idx];
-      document.getElementById('proj-filename').textContent = p.name + '/' + p.file;
-      document.getElementById('proj-status-name').textContent = p.name;
-      // Gutter
-      const gutter = document.getElementById('proj-gutter');
-      gutter.innerHTML = p.lines.map((_, i) => i + 1).join('<br>');
-      // Content
-      const content = document.getElementById('proj-content');
-      content.innerHTML = p.lines.map(l => `<div>${l || '&nbsp;'}</div>`).join('');
-      // File tree highlight
-      document.querySelectorAll('.filetree-body .ft-row:not(.ft-dir)').forEach((row, i) => {
-        row.classList.toggle('ft-active', i === idx);
-      });
-    }
-    function showProject(idx) { renderProject(idx); }
-    renderProject(0);
-
-    // ══ TERMINAL ════════════════════════════════════════════════
-    const CMDS = {
-      help: () => `Available commands:
-  <span class="t-c">whoami</span>       — about me
-  <span class="t-c">ls</span>          — list projects
-  <span class="t-c">skills</span>      — tech stack
-  <span class="t-c">contact</span>     — links
-  <span class="t-c">open &lt;win&gt;</span> — open window (about|projects|skills|contact|resume)
-  <span class="t-c">clear</span>       — clear screen
-  <span class="t-c">uname -a</span>    — system info
-  <span class="t-c">date</span>        — current date`,
-
-      whoami: () => `advaith — Aspiring Quant, Student @ GIIS
-Passion: quantitative finance, ML, statistical modelling.`,
-
-      ls: () => `total 3
-drwxr-xr-x  <span class="t-c">Momentum-Research-Project</span>
-drwxr-xr-x  <span class="t-c">Market-Microstructure-Analysis-using-Shannon-Entropy</span>
-drwxr-xr-x  <span class="t-c">Finance-Automation-Tracker</span>`,
-
-      skills: () => `Python  NumPy  Pandas  YFinance  Matplotlib  Plotly
-R  Scikit-Learn  PyTorch  QuantLib
-MongoDB  MySQL  Streamlit  Git  GitHub`,
-
-      contact: () => `GitHub   → <a href="https://github.com/advaithprabhudev" target="_blank" class="t-link">github.com/advaithprabhudev</a>
-LinkedIn → <a href="https://www.linkedin.com/in/advaith-prabhu/" target="_blank" class="t-link">linkedin.com/in/advaith-prabhu</a>`,
-
-      'uname -a': () => `Linux archlinux 6.8.0-arch1-1 #1 SMP PREEMPT_DYNAMIC x86_64 GNU/Linux`,
-      uname: () => `Linux archlinux 6.8.0-arch1-1 #1 SMP x86_64 GNU/Linux`,
-
-      date: () => new Date().toString(),
-      clear: () => '__CLEAR__',
-
-      open: (args) => {
-        const n = args[0];
-        if (['about', 'projects', 'skills', 'contact', 'resume', 'terminal'].includes(n)) {
-          setTimeout(() => WM.open(n), 80);
-          return `Opening <span class="t-c">${n}</span>...`;
+    // View switching
+    const VIEWS = ['desktop','about','portfolio','contact'];
+    function openView(name) {
+      VIEWS.forEach(v => {
+        const el = document.getElementById('view-' + v);
+        const tab = document.getElementById('tab-' + v);
+        if (el) {
+          const isActive = v === name;
+          el.classList.toggle('active', isActive);
+          el.style.display = isActive ? (v === 'desktop' ? 'block' : 'flex') : 'none';
         }
-        return `open: unknown: '${n}'`;
-      },
-    };
-
-    let termHistory = [], termHistIdx = -1;
-    let termInit = false;
-
-    function initTerminal() {
-      if (termInit) return; termInit = true;
-      const input = document.getElementById('term-input');
-      const output = document.getElementById('term-output');
-      const container = document.getElementById('term-container');
-
-      function esc(s) { return s.replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;'); }
-      function appendLine(html) {
-        const d = document.createElement('div');
-        d.className = 't-line'; d.innerHTML = html;
-        output.appendChild(d);
-        container.scrollTop = container.scrollHeight;
-      }
-
-      input.addEventListener('keydown', e => {
-        if (e.key === 'Enter') {
-          const val = input.value.trim();
-          input.value = '';
-          if (!val) return;
-          termHistory.unshift(val); termHistIdx = -1;
-          // Echo prompt
-          appendLine(`<span class="t-dollar">❯ </span>${esc(val)}`);
-          // Run
-          const parts = val.split(/\s+/);
-          const cmd = parts[0]; const args = parts.slice(1);
-          const full = val;
-          const handler = CMDS[full] || CMDS[cmd];
-          if (handler) {
-            const r = handler(args);
-            if (r === '__CLEAR__') { output.innerHTML = ''; }
-            else if (r) appendLine(r);
-          } else {
-            appendLine(`<span style="color:var(--red)">zsh: command not found: ${esc(cmd)}</span>`);
-          }
-        } else if (e.key === 'ArrowUp') {
-          termHistIdx = Math.min(termHistIdx + 1, termHistory.length - 1);
-          input.value = termHistory[termHistIdx] || '';
-          e.preventDefault();
-        } else if (e.key === 'ArrowDown') {
-          termHistIdx = Math.max(termHistIdx - 1, -1);
-          input.value = termHistIdx >= 0 ? termHistory[termHistIdx] : '';
-          e.preventDefault();
-        }
+        if (tab) tab.classList.toggle('active', v === name);
       });
-      document.getElementById('term-container').addEventListener('click', () => input.focus());
     }
 
-    // ══ BOOT SEQUENCE ════════════════════════════════════════════
-    (function boot() {
-      const b = document.createElement('div');
-      b.id = 'boot';
-      b.innerHTML = `
-    <div class="boot-ascii">         .+          
-        .ooo/         
-      +oooo:          
-     +oooooo:         
-     -+oooooo+:       
-      -/++++++:       
-   -/++oooooooo+      
-  -/+++oooooooo+      
- ./oossssso++osssss+  
-./ossssssso-  osssss+ 
-/ossssssso:    osssss+
-+sssssssso:    +ssssso
-.ssssssso:     +ssssso
- /sssssso:    -osssso/
-  -/+oso+-:/-+ossso/  
-   -:+/  -/+osso/-    
-      -:/+oso/-        </div>
-    <div class="boot-text" id="boot-msg">Initializing advaith@arch...</div>
-    <div class="boot-log" id="boot-log"></div>`;
-      b.style.cssText = 'position:fixed;inset:0;background:#000;display:flex;flex-direction:column;align-items:center;justify-content:center;z-index:99999;gap:16px;font-family:var(--mono);';
-      document.body.appendChild(b);
+    // Start menu
+    function toggleStartMenu() {
+      const m = document.getElementById('start-menu');
+      const o = document.getElementById('menu-overlay');
+      const open = !m.classList.contains('open');
+      m.classList.toggle('open', open);
+      o.classList.toggle('open', open);
+    }
 
-      const msgs = [
-        '[ <span style="color:var(--green)">OK</span> ] Started udev Kernel Device Manager',
-        '[ <span style="color:var(--green)">OK</span> ] Started Network Manager',
-        '[ <span style="color:var(--green)">OK</span> ] Reached target Graphical Interface',
-        '[ <span style="color:var(--accent2)">  </span>] Starting advaith-portfolio.service...',
-        '[ <span style="color:var(--green)">OK</span> ] Started advaith-portfolio.service',
-      ];
-      const log = document.getElementById('boot-log');
-      msgs.forEach((m, i) => {
-        setTimeout(() => {
-          const d = document.createElement('div');
-          d.className = 'boot-log-line'; d.innerHTML = m;
-          log.appendChild(d);
-        }, 300 + i * 280);
+    function closeStartMenu() {
+      document.getElementById('start-menu').classList.remove('open');
+      document.getElementById('menu-overlay').classList.remove('open');
+    }
+
+    // Window dragging
+    document.querySelectorAll('[id^="win-"]').forEach(win => {
+      const handle = win.querySelector('.drag-handle');
+      if (!handle) return;
+      let dragging = false, ox = 0, oy = 0;
+      handle.addEventListener('mousedown', e => {
+        dragging = true;
+        const rect = win.getBoundingClientRect();
+        ox = e.clientX - rect.left;
+        oy = e.clientY - rect.top;
+        win.style.position = 'absolute';
+        win.style.zIndex = 60;
+        e.preventDefault();
       });
-
-      setTimeout(() => {
-        b.style.transition = 'opacity 500ms ease';
-        b.style.opacity = '0';
-        setTimeout(() => {
-          b.remove();
-          WM.open('terminal');
-          WM.open('about');
-          setTimeout(() => { WM.open('projects'); }, 200);
-        }, 520);
-      }, 2200);
-    })();
-
-    // Open skills bars when window shown
-    document.getElementById('win-skills').addEventListener('mousedown', () => {
-      document.querySelectorAll('.skill-fill').forEach(el => {
-        if (!el.style.width || el.style.width === '0px') el.style.width = el.dataset.w + '%';
+      document.addEventListener('mousemove', e => {
+        if (!dragging) return;
+        const parent = win.offsetParent || document.body;
+        const pr = parent.getBoundingClientRect();
+        win.style.left = (e.clientX - pr.left - ox) + 'px';
+        win.style.top = (e.clientY - pr.top - oy) + 'px';
+        win.style.right = 'auto';
+        win.style.bottom = 'auto';
       });
+      document.addEventListener('mouseup', () => { dragging = false; });
     });
 
-    // Init terminal on open
-    const _origOpen = WM.open.bind(WM);
-    WM.open = function (id) {
-      _origOpen(id);
-      if (id === 'terminal') setTimeout(initTerminal, 150);
-    };
+    // Bring window to front
+    document.querySelectorAll('[id^="win-"]').forEach(win => {
+      win.addEventListener('mousedown', () => {
+        document.querySelectorAll('[id^="win-"]').forEach(w => w.style.zIndex = 20);
+        win.style.zIndex = 50;
+      });
+    });
   </script>
 </body>
-
 </html>
