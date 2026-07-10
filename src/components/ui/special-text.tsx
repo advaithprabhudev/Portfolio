@@ -172,7 +172,7 @@ export function SpecialText({
   return (
     <span
       ref={containerRef}
-      className={`inline-flex ${className}`}
+      className={`inline-flex font-mono font-medium ${className}`}
     >
       {displayText}
     </span>

@@ -11,7 +11,14 @@ interface Point {
   color: string;
 }
 
-const COLORS = ["#FF48B0", "#00838A"];
+const COLORS = [
+  "#FF0080",
+  "#7928CA",
+  "#0070F3",
+  "#00DFD8",
+  "#FF4D4D",
+  "#FFD700",
+];
 
 export const LiquidCursor = () => {
   const canvasRef = useRef<HTMLCanvasElement>(null);
@@ -22,11 +29,6 @@ export const LiquidCursor = () => {
   useEffect(() => {
     const canvas = canvasRef.current;
     if (!canvas) return;
-
-    // No cursor to trail on touch devices, and motion-sensitive users opt out entirely.
-    const finePointer = window.matchMedia("(pointer: fine)").matches;
-    const reducedMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
-    if (!finePointer || reducedMotion) return;
 
     const ctx = canvas.getContext("2d");
     if (!ctx) return;
@@ -117,24 +119,11 @@ export const LiquidCursor = () => {
       rafRef.current = requestAnimationFrame(animate);
     };
 
-    const handleVisibilityChange = () => {
-      if (document.hidden) {
-        if (rafRef.current) {
-          cancelAnimationFrame(rafRef.current);
-          rafRef.current = null;
-        }
-      } else if (rafRef.current === null) {
-        animate();
-      }
-    };
-    document.addEventListener("visibilitychange", handleVisibilityChange);
-
     animate();
 
     return () => {
       window.removeEventListener("resize", resize);
       window.removeEventListener("mousemove", handleMouseMove);
-      document.removeEventListener("visibilitychange", handleVisibilityChange);
       if (rafRef.current) cancelAnimationFrame(rafRef.current);
     };
   }, []);

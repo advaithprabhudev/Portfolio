@@ -2,70 +2,9 @@
 @import "tw-animate-css";
 
 :root {
-  /* Typewriter voice — everything a co-op would photocopy: body, labels, nav. */
-  --font-sans: "Courier Prime", ui-monospace, "SFMono-Regular", Menlo, monospace;
-
-  /* Design tokens — see DESIGN.md for names, roles, and usage rules. */
-  --color-paper: #F2E9D8;
-  --color-ink: #1A1414;
-  --color-signal: #FF48B0;
-  --color-electric: #00838A;
-  --color-white: #FFFFFF;
-}
-
-@theme {
-  /* Chunky geometric grotesk — reserved for the hero name and section headlines only. */
-  --font-display: "Syne", ui-sans-serif, system-ui, sans-serif;
-  /* Same typewriter face as body; kept as its own token for data-shaped labels/tags. */
-  --font-mono: "Courier Prime", ui-monospace, "SFMono-Regular", Menlo, monospace;
+  --font-sans: "Plus Jakarta Sans", ui-sans-serif, system-ui, sans-serif;
 }
 
 body {
   font-family: var(--font-sans);
-  position: relative;
-}
-
-/* Paper grain — one shared SVG turbulence filter, multiply-blended over every section
-   so flat ink colors read as printed stock rather than a solid digital fill. */
-body::before {
-  content: "";
-  position: fixed;
-  inset: 0;
-  z-index: 50;
-  pointer-events: none;
-  mix-blend-mode: multiply;
-  opacity: 0.12;
-  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='200' height='200'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='2' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
-}
-
-/* Misregistered headline — a duplicator slightly out of registration. Pink/teal
-   text-shadow drifting on a slow sine; the system's one motion signature. */
-@keyframes riso-misregister {
-  0%, 100% { text-shadow: 0.03em 0 0 rgba(255, 72, 176, 0.55), -0.03em 0 0 rgba(0, 131, 138, 0.55); }
-  50% { text-shadow: -0.02em 0.015em 0 rgba(255, 72, 176, 0.55), 0.02em -0.015em 0 rgba(0, 131, 138, 0.55); }
-}
-
-.riso-headline {
-  animation: riso-misregister 6s ease-in-out infinite;
-}
-
-@media (prefers-reduced-motion: reduce) {
-  .riso-headline {
-    animation: none;
-    text-shadow: 0.03em 0 0 rgba(255, 72, 176, 0.55), -0.03em 0 0 rgba(0, 131, 138, 0.55);
-  }
-}
-
-/* Project link hover — "hovering a zine re-rolls its misregistration" from the
-   source brief, scoped here since this page has no zine-cover grid. */
-.riso-project-link:hover,
-.riso-project-link:focus-visible {
-  text-shadow: 0.035em 0.01em 0 rgba(255, 72, 176, 0.6), -0.035em -0.01em 0 rgba(0, 131, 138, 0.6);
-}
-
-@media (prefers-reduced-motion: reduce) {
-  .riso-project-link:hover,
-  .riso-project-link:focus-visible {
-    text-shadow: none;
-  }
 }
