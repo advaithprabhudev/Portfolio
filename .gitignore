@@ -3,3 +3,13 @@ dist/
 temporary screenshots/
 *.pdf
 .DS_Store
+brand_assets/
+fable-floor/
+fable-observatory/
+portfolio/
+shots/
+shot-viewport.mjs
+.netlify/
+.impeccable/
+tsconfig.app.tsbuildinfo
+.claude/launch.json

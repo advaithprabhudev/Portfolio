@@ -1,254 +1,458 @@
-import FlowArt, { FlowSection } from './components/ui/story-scroll';
-import { LiquidCursor } from './components/ui/liquid-cursor';
-import { SpecialText } from './components/ui/special-text';
-import DelicateAsciiDots from './components/ui/delicate-ascii-dots';
+import { motion, useReducedMotion, type Variants } from 'motion/react';
+import type { ReactNode } from 'react';
+import { NotebookCard } from './components/ui/notebook-card';
+import { Tape } from './components/ui/tape';
+import { Pin } from './components/ui/pin';
+import { Polaroid } from './components/ui/polaroid';
+import { MarginDoodles } from './components/ui/margin-doodles';
+import Floating, { FloatingElement } from './components/ui/parallax-floating';
+import { ParallaxLayer, ScrollScene } from './components/ui/scroll-scene';
+import { ScrollThread } from './components/ui/svg-follow-scroll';
+import { BalatroBackground } from './components/ui/balatro-background';
+import { MusicPlayer } from './components/ui/music-player';
+import { ASCII_HERO_ART } from './lib/ascii-hero-art';
 
+const LINK_CLASS =
+  'font-mono text-xs font-semibold uppercase tracking-[0.15em] underline decoration-[var(--marker)] decoration-2 underline-offset-4 hover:text-[var(--marker)] transition-colors duration-200 focus-visible:outline focus-visible:outline-2 focus-visible:outline-[var(--marker)] focus-visible:outline-offset-4 rounded-none';
+
+export const MILESTONES = [
+  {
+    year: '2025-2026',
+    title: 'Codeforces Competitive Programmer',
+    desc: 'Applying data structures and algorithms in rated competitive programming contests.',
+  },
+  {
+    year: '2025',
+    title: 'International Business Olympiad: Higher Distinction',
+    desc: 'Scored 256/300 in the International Business Olympiad.',
+  },
+  {
+    year: '2025',
+    title: 'Top 5, FedEx JA International Trade Challenge',
+    desc: 'National finalist across 40+ teams in an international trade competition.',
+  },
+];
+
+export const PROJECTS = [
+  {
+    id: '01',
+    title: 'Collatz Monte Carlo',
+    tags: 'Python · Random Walk · NumPy',
+    desc: 'Monte Carlo modelling of Collatz parity vectors to probe stochastic convergence behaviour.',
+    // TODO: replace with the real repo slug
+    repoUrl: 'https://github.com/advaith-prabhu/collatz-monte-carlo',
+    rotate: -3,
+    depth: 1,
+    pos: 'top-[2%] left-[2%]',
+  },
+  {
+    id: '02',
+    title: 'ML Momentum Strategies',
+    tags: 'Python · ML · Statistical Modelling',
+    desc: 'Sharpe ratio and max drawdown analysis on 15 NYSE equities using MLP-filtered momentum systems.',
+    repoUrl: 'https://github.com/advaith-prabhu/ml-momentum-strategies',
+    rotate: 2.5,
+    depth: 2,
+    pos: 'top-[0%] left-[52%]',
+  },
+  {
+    id: '03',
+    title: 'Honeypot',
+    tags: 'Claude API · AI Systems · Security',
+    desc: 'AI-powered penetration testing tool built for SME threat detection and automated vulnerability reporting.',
+    repoUrl: 'https://github.com/advaith-prabhu/honeypot',
+    rotate: 3,
+    depth: 1.5,
+    pos: 'top-[54%] left-[6%]',
+  },
+  {
+    id: '04',
+    title: 'Fourier Transformations',
+    tags: 'NumPy · Python · Jupyter',
+    desc: 'Empirical distribution analysis of Fourier transforms using spectral density functions.',
+    repoUrl: 'https://github.com/advaith-prabhu/fourier-transformations',
+    rotate: -2.5,
+    depth: 1,
+    pos: 'top-[56%] left-[54%]',
+  },
+];
+
+const SKILLS = [
+  { label: 'Languages', skills: ['Python', 'C++', 'JavaScript', 'LaTeX'] },
+  {
+    label: 'Frameworks & Libraries',
+    skills: ['NumPy', 'Pandas', 'Scikit-learn', 'Framer Motion', 'React', 'Matplotlib'],
+  },
+  {
+    label: 'Mathematics & Theory',
+    skills: [
+      'Markov Chains',
+      'Monte Carlo Methods',
+      'Stochastic Processes',
+      'Information Theory',
+      'Fourier Analysis',
+      'Linear Algebra',
+      'Probability Theory',
+    ],
+  },
+  { label: 'Tools & Infra', skills: ['Git', 'GitHub', 'Jupyter', 'VS Code', 'Codeforces', 'LaTeX (Overleaf)'] },
+];
+
+const revealVariants: Variants = {
+  hidden: { opacity: 0, y: 28 },
+  visible: { opacity: 1, y: 0, transition: { duration: 0.6, ease: [0.16, 1, 0.3, 1] } },
+};
+
+function Reveal({ children, className, delay = 0 }: { children: ReactNode; className?: string; delay?: number }) {
+  const reduce = useReducedMotion();
+  if (reduce) return <div className={className}>{children}</div>;
+  return (
+    <motion.div
+      className={className}
+      initial="hidden"
+      whileInView="visible"
+      viewport={{ once: true, margin: '-80px' }}
+      transition={{ delay }}
+      variants={revealVariants}
+    >
+      {children}
+    </motion.div>
+  );
+}
+
+function SectionLabel({ n, children }: { n: string; children: ReactNode }) {
+  return (
+    <p className="font-mono text-xs font-semibold uppercase tracking-[0.3em] text-[var(--marker)]">
+      № {n}: {children}
+    </p>
+  );
+}
+
+function ProjectCard({
+  id,
+  title,
+  tags,
+  desc,
+  repoUrl,
+  rotate,
+  className = '',
+}: {
+  id: string;
+  title: string;
+  tags: string;
+  desc: string;
+  repoUrl: string;
+  rotate: number;
+  className?: string;
+}) {
+  return (
+    <a
+      href={repoUrl}
+      target="_blank"
+      rel="noopener noreferrer"
+      className={`group block bg-[var(--paper)] text-[var(--paper-text)] border-[1.5px] border-[var(--paper-text)] p-5 transition-transform duration-200 hover:-translate-y-1 focus-visible:outline focus-visible:outline-2 focus-visible:outline-[var(--marker)] focus-visible:outline-offset-4 ${className}`}
+      style={{ transform: `rotate(${rotate}deg)`, boxShadow: '6px 6px 0 rgba(14,13,12,0.9)' }}
+    >
+      <Tape className="-top-3 left-1/2 -translate-x-1/2 w-16" rotate={-3} color="rgba(255,75,46,0.35)" />
+      <div
+        className="h-32 w-full mb-4 border-[1.5px] border-[var(--paper-text)] bg-cover bg-center"
+        style={{ backgroundImage: "url('https://placehold.co/480x300/0e0d0c/3a352c?text=preview')" }}
+      />
+      <div className="flex items-start gap-3">
+        <span className="font-mono text-xs font-bold opacity-40">{id}</span>
+        <div className="flex-1">
+          <p className="font-mono font-bold text-base">{title}</p>
+          <p className="font-mono text-[10px] uppercase tracking-wider opacity-50 mt-1">{tags}</p>
+          <p className="font-mono text-xs leading-relaxed opacity-75 mt-2 line-clamp-2">{desc}</p>
+          <p className="font-mono text-[10px] font-bold uppercase tracking-wider text-[var(--marker-deep)] mt-3 group-hover:text-[var(--marker)]">
+            View on GitHub ↗
+          </p>
+        </div>
+      </div>
+    </a>
+  );
+}
 
 export default function App() {
   return (
-    <>
-    <LiquidCursor />
-    <FlowArt aria-label="Advaith Prabhu Portfolio">
-      {/* 01 — Hero */}
-      <FlowSection
-        aria-label="Introduction"
-        style={{ backgroundColor: '#F5F2EC', color: '#1A1A1A' }}
-      >
-        <p className="text-xs font-bold uppercase tracking-[0.2em] opacity-50">
-          01 — Advaith Prabhu
-        </p>
-        <hr className="border-t border-black/10" />
-        <div>
-          <h1 className="text-[clamp(3.5rem,12vw,14rem)] font-bold leading-[0.85] uppercase tracking-tight">
-            <SpecialText className="text-[clamp(3.5rem,12vw,14rem)] font-bold leading-[0.85] uppercase tracking-tight">
-              Advaith
-            </SpecialText>
-            <br />
-            <SpecialText
-              className="text-[clamp(3.5rem,12vw,14rem)] font-bold leading-[0.85] uppercase tracking-tight"
-              delay={0.3}
-            >
-              Prabhu
-            </SpecialText>
-          </h1>
-        </div>
-        <hr className="border-t border-black/10" />
-        <p className="mt-auto max-w-[50ch] text-[clamp(1rem,2.5vw,1.75rem)] font-normal leading-relaxed opacity-70">
-          Quantitative CS student building at the intersection of mathematics and markets
-        </p>
-        {/* Right column animated ASCII dots */}
-        <div className="hidden lg:block absolute right-0 top-0 h-full w-[40rem] overflow-hidden pointer-events-none">
-          <DelicateAsciiDots
-            backgroundColor="#F5F2EC"
-            textColor="180, 172, 163"
-            gridSize={60}
-            animationSpeed={0.5}
-          />
-        </div>
-      </FlowSection>
+    <main className="relative isolate">
+      <BalatroBackground initialTheme="hero" />
+      <MusicPlayer />
 
-      {/* 02 — Internships & Awards */}
-      <FlowSection
-        aria-label="Internships & Awards"
-        style={{ backgroundColor: '#1A1A1A', color: '#F5F2EC' }}
-      >
-        <p className="text-xs font-bold uppercase tracking-[0.2em] opacity-50">
-          02 — Internships & Awards
-        </p>
-        <hr className="border-t border-white/10" />
-        <div>
-          <h2 className="text-[clamp(3.5rem,12vw,14rem)] font-bold leading-[0.85] uppercase tracking-tight">
-            Career
-            <br />
-            Milestones
-          </h2>
-        </div>
-        <hr className="border-t border-white/10" />
-        <div className="space-y-8 max-w-2xl">
-          {[
-            {
-              year: '2025–2026',
-              title: 'Codeforces Competitive Programmer',
-              desc: 'Applying data structures and algorithms in rated competitive programming contests',
-            },
-            {
-              year: '2025',
-              title: 'International Business Olympiad — Higher Distinction',
-              desc: 'Scored 256/300 in the International Business Olympiad',
-            },
-            {
-              year: '2025',
-              title: 'Top 5 — FedEx JA International Trade Challenge',
-              desc: 'National finalist across 40+ teams in international trade competition',
-            },
-          ].map(({ year, title, desc }) => (
-            <div key={title} className="border-l border-white/20 pl-6">
-              <p className="text-sm font-bold uppercase tracking-wider opacity-70">{year}</p>
-              <p className="text-[clamp(1rem,2.5vw,1.75rem)] font-bold mt-2">{title}</p>
-              <p className="text-[clamp(0.85rem,1.3vw,1.05rem)] leading-relaxed opacity-60 mt-2">{desc}</p>
-            </div>
-          ))}
-        </div>
-      </FlowSection>
+      <header className="sticky top-0 z-40 flex items-center justify-between px-[6vw] py-4 font-mono text-xs uppercase tracking-[0.2em] text-[var(--ink-text)]/80 bg-[var(--ink)]/85 backdrop-blur-sm border-b border-[var(--ink-text)]/10">
+        <a href="/" className="font-semibold hover:text-[var(--marker)] transition-colors">Advaith Prabhu</a>
+        <nav className="hidden sm:flex gap-6">
+          <a href="#about" className="hover:text-[var(--marker)] transition-colors focus-visible:outline focus-visible:outline-2 focus-visible:outline-[var(--marker)] focus-visible:outline-offset-4">About</a>
+          <a href="#work" className="hover:text-[var(--marker)] transition-colors focus-visible:outline focus-visible:outline-2 focus-visible:outline-[var(--marker)] focus-visible:outline-offset-4">Work</a>
+          <a href="#contact" className="hover:text-[var(--marker)] transition-colors focus-visible:outline focus-visible:outline-2 focus-visible:outline-[var(--marker)] focus-visible:outline-offset-4">Contact</a>
+        </nav>
+      </header>
 
-      {/* 03 — Projects */}
-      <FlowSection
-        aria-label="Selected Projects"
-        style={{ backgroundColor: '#fd5200', color: '#fff' }}
-      >
-        <p className="text-xs font-bold uppercase tracking-[0.2em] opacity-70">
-          03 — Projects
-        </p>
-        <hr className="border-t border-white/20" />
-        <div>
-          <h2 className="text-[clamp(3.5rem,12vw,14rem)] font-bold leading-[0.85] uppercase tracking-tight">
-            Selected
-            <br />
-            Projects
-          </h2>
-        </div>
-        <hr className="border-t border-white/20" />
-        <div className="space-y-6 max-w-4xl">
-          {[
-            {
-              id: '01',
-              title: 'Collatz Monte Carlo',
-              tags: 'Python · Random Walk · NumPy',
-              desc: 'Monte Carlo modelling of Collatz parity vectors to probe stochastic convergence behaviour',
-            },
-            {
-              id: '02',
-              title: 'ML Momentum Strategies',
-              tags: 'Python · ML · Statistical Modelling',
-              desc: 'Sharpe ratio and max drawdown analysis on 15 NYSE equities using MLP-filtered momentum systems',
-            },
-            {
-              id: '03',
-              title: 'Honeypot',
-              tags: 'Claude API · AI Systems · Security',
-              desc: 'AI-powered penetration testing tool built for SME threat detection and automated vulnerability reporting',
-            },
-            {
-              id: '04',
-              title: 'Fourier Transformations',
-              tags: 'NumPy · Python · Jupyter',
-              desc: 'Empirical distribution analysis of Fourier transforms using spectral density functions',
-            },
-          ].map(({ id, title, tags, desc }) => (
-            <div key={title} className="border-t border-white/20 pt-6">
-              <div className="flex items-start gap-6">
-                <span className="text-sm font-bold opacity-50">{id}</span>
-                <div className="flex-1">
-                  <p className="font-bold text-[clamp(1rem,2vw,1.5rem)]">{title}</p>
-                  <p className="text-xs uppercase tracking-wider opacity-50 mt-2">{tags}</p>
-                  <p className="text-[clamp(0.85rem,1.3vw,1.05rem)] leading-relaxed opacity-80 mt-3">{desc}</p>
+      <div className="relative overflow-hidden">
+        <ScrollThread className="z-10" />
+
+        {/* Hero */}
+        <ScrollScene id="portfolio" data-balatro-theme="hero" className="relative min-h-[100dvh] flex flex-col justify-center px-[6vw] py-24 overflow-hidden scroll-mt-12">
+          <div aria-hidden="true" className="paper-grain section-wash absolute inset-0 z-0" />
+          <MarginDoodles tone="onLight" side="left" />
+          <MarginDoodles tone="onLight" side="right" />
+
+          <ParallaxLayer className="absolute top-24 left-[6vw] z-20" distance={14}>
+            <p className="font-mono text-xs font-semibold uppercase tracking-[0.3em] text-[var(--paper-text)]/50">
+              Quant · CS · Markets
+            </p>
+          </ParallaxLayer>
+
+          <div className="relative z-20 grid md:grid-cols-[1.1fr_1fr] gap-12 items-center">
+            <ParallaxLayer className="flex flex-col gap-10" distance={30} scale={0.012}>
+              <h1 className="font-display uppercase leading-[0.82] text-[clamp(3.2rem,11vw,9rem)] text-[var(--paper-text)]">
+                Hi, I&rsquo;m
+                <br />
+                <span className="text-[var(--marker)]">Advaith.</span>
+              </h1>
+
+              <p className="font-mono max-w-md text-sm md:text-base leading-relaxed text-[var(--paper-text)]/80">
+                <span className="text-[var(--marker)] font-semibold">Ever since</span> I started losing to a clock on
+                Codeforces, I&rsquo;ve had a thing for systems that are exact until they aren&rsquo;t: stochastic
+                processes, markets, and code.
+                <br />
+                <br />
+                <span className="text-[var(--marker)] font-semibold">I build</span> at the intersection of
+                mathematics and markets: quantitative CS student, competitive programmer, occasional
+                trade-competition finalist.
+              </p>
+            </ParallaxLayer>
+
+            <ParallaxLayer className="hidden md:block" distance={-38} rotate={0.7} scale={0.018}>
+              <pre
+                aria-hidden="true"
+                className="select-none font-mono leading-[1.05] text-[var(--paper-text)]/85 whitespace-pre overflow-hidden"
+                style={{ fontSize: 'clamp(2.6px, 0.34vw, 4.6px)' }}
+              >
+                {ASCII_HERO_ART}
+              </pre>
+            </ParallaxLayer>
+          </div>
+
+        </ScrollScene>
+
+        {/* About */}
+        <ScrollScene id="about" data-balatro-theme="about" className="relative px-[6vw] py-[16vh] flex justify-center overflow-hidden scroll-mt-12">
+          <div aria-hidden="true" className="paper-grain section-wash absolute inset-0 z-0" />
+          <MarginDoodles tone="onLight" side="left" />
+          <ParallaxLayer className="relative z-20 w-full max-w-3xl" distance={48} rotate={0.7} scale={0.018}>
+            <Reveal>
+              <NotebookCard rotate={-1.25} className="p-8 md:p-16">
+              <Tape className="-top-3 left-10 w-24" rotate={-6} />
+              <Tape className="-top-3 right-10 w-24" rotate={5} color="rgba(255,75,46,0.35)" />
+              <p className="font-display text-2xl md:text-3xl uppercase text-[var(--marker)] mb-10">About Me</p>
+              <div className="flex flex-col md:flex-row gap-10 md:gap-16">
+                <Polaroid
+                  src="https://placehold.co/320x320/17140f/f3ead9?text=ADVAITH"
+                  alt="Portrait of Advaith Prabhu"
+                  caption="advaith.jpg"
+                  rotate={3}
+                  className="mx-auto md:mx-0 shrink-0"
+                />
+                <div className="flex-1 space-y-5">
+                  <p className="font-mono text-sm md:text-base leading-relaxed">
+                    I&rsquo;m a quantitative CS student building at the intersection of mathematics and markets,
+                    modelling stochastic processes for fun, competing on Codeforces for the adrenaline, and
+                    occasionally finishing near the top of international trade &amp; business competitions.
+                  </p>
+                  <div className="flex flex-wrap gap-2">
+                    <span className="font-mono text-[11px] font-semibold uppercase tracking-wider border-[1.5px] border-[var(--paper-text)] px-2 py-1">
+                      Status: Online
+                    </span>
+                    <span className="font-mono text-[11px] font-semibold uppercase tracking-wider border-[1.5px] border-[var(--paper-text)] px-2 py-1">
+                      Focus: Quant Research
+                    </span>
+                  </div>
+                  <div className="flex flex-wrap gap-x-6 gap-y-2 pt-2">
+                    <a href="https://linkedin.com/in/advaith-prabhu" target="_blank" rel="noopener noreferrer" className={LINK_CLASS}>
+                      LinkedIn
+                    </a>
+                    <a href="https://github.com/advaith-prabhu" target="_blank" rel="noopener noreferrer" className={LINK_CLASS}>
+                      GitHub
+                    </a>
+                    <a href="mailto:darsanaarun.sg@gmail.com" className={LINK_CLASS}>
+                      Email
+                    </a>
+                  </div>
                 </div>
               </div>
-            </div>
-          ))}
-        </div>
-      </FlowSection>
+              </NotebookCard>
+            </Reveal>
+          </ParallaxLayer>
+        </ScrollScene>
 
-      {/* 04 — Skills */}
-      <FlowSection
-        aria-label="Skills"
-        style={{ backgroundColor: '#1A3DE8', color: '#fff' }}
-      >
-        <p className="text-xs font-bold uppercase tracking-[0.2em] opacity-70">
-          04 — Skills & Tools
-        </p>
-        <hr className="border-t border-white/20" />
-        <div>
-          <h2 className="text-[clamp(3.5rem,12vw,14rem)] font-bold leading-[0.85] uppercase tracking-tight">
-            The
-            <br />
-            Stack
-          </h2>
-        </div>
-        <hr className="border-t border-white/20" />
-        <div className="flex flex-wrap gap-[3vw] max-w-4xl">
-          {[
-            { label: 'Languages', skills: ['Python', 'C++', 'JavaScript', 'LaTeX'] },
-            {
-              label: 'Frameworks & Libraries',
-              skills: ['NumPy', 'Pandas', 'Scikit-learn', 'Framer Motion', 'React', 'Matplotlib'],
-            },
-            {
-              label: 'Mathematics & Theory',
-              skills: [
-                'Markov Chains',
-                'Monte Carlo Methods',
-                'Stochastic Processes',
-                'Information Theory',
-                'Fourier Analysis',
-                'Linear Algebra',
-                'Probability Theory',
-              ],
-            },
-            {
-              label: 'Tools & Infra',
-              skills: ['Git', 'GitHub', 'Jupyter', 'VS Code', 'Codeforces', 'LaTeX (Overleaf)'],
-            },
-          ].map(({ label, skills }) => (
-            <div key={label} className="min-w-[200px] flex-1">
-              <p className="mb-4 text-sm font-bold uppercase tracking-wider">{label}</p>
-              <div className="flex flex-wrap gap-2">
-                {skills.map((skill) => (
-                  <span key={skill} className="px-3 py-1 bg-white/10 rounded-full text-[clamp(0.75rem,1vw,0.9rem)] opacity-70">
-                    {skill}
-                  </span>
-                ))}
-              </div>
+        {/* Career Milestones */}
+        <ScrollScene id="career" data-balatro-theme="career" className="relative min-h-[100dvh] flex flex-col items-center justify-center px-[6vw] py-[10vh] overflow-hidden scroll-mt-12">
+          <div aria-hidden="true" className="paper-grain section-wash absolute inset-0 z-0" />
+          <MarginDoodles tone="onLight" side="right" />
+          <div className="relative z-20 w-full max-w-3xl">
+            <ParallaxLayer distance={24}>
+              <SectionLabel n="02">Career Milestones</SectionLabel>
+              <h2 className="font-display uppercase leading-[0.85] text-[clamp(2.6rem,8vw,6rem)] text-[var(--paper-text)] mt-4 mb-12">
+                Career
+                <br />
+                Milestones
+              </h2>
+            </ParallaxLayer>
+            <div className="flex flex-col gap-8 max-w-3xl">
+              {MILESTONES.map(({ year, title, desc }, i) => (
+                <ParallaxLayer key={title} distance={36 + i * 12} rotate={i % 2 === 0 ? 0.25 : -0.25}>
+                  <Reveal delay={i * 0.08}>
+                    <div
+                      className="relative bg-[var(--paper)] text-[var(--paper-text)] border-[1.5px] border-[var(--paper-text)] px-6 py-5"
+                      style={{
+                        transform: `rotate(${i % 2 === 0 ? -0.75 : 0.75}deg)`,
+                        boxShadow: '5px 5px 0 rgba(14,13,12,0.9)',
+                      }}
+                    >
+                      <Pin className="-top-3 left-6" />
+                      <p className="font-mono text-xs font-semibold uppercase tracking-wider text-[var(--marker-deep)]">
+                        {year}
+                      </p>
+                      <p className="font-mono font-bold text-base md:text-lg mt-1">{title}</p>
+                      <p className="font-mono text-sm leading-relaxed opacity-70 mt-2">{desc}</p>
+                    </div>
+                  </Reveal>
+                </ParallaxLayer>
+              ))}
             </div>
-          ))}
-        </div>
-      </FlowSection>
-
-      {/* 05 — Contact */}
-      <FlowSection
-        aria-label="Contact"
-        style={{ backgroundColor: '#F5F2EC', color: '#1A1A1A' }}
-      >
-        <p className="text-xs font-bold uppercase tracking-[0.2em] opacity-50">
-          05 — Get in Touch
-        </p>
-        <hr className="border-t border-black/10" />
-        <div>
-          <h2 className="text-[clamp(3.5rem,12vw,14rem)] font-bold leading-[0.85] uppercase tracking-tight">
-            Let&apos;s
-            <br />
-            Work
-            <br />
-            Together
-          </h2>
-        </div>
-        <hr className="border-t border-black/10" />
-        <div className="mt-auto space-y-6">
-          <div className="flex gap-8 items-center justify-start flex-wrap text-[clamp(0.85rem,1.3vw,1.05rem)]">
-            {/* TODO: replace placeholder URLs */}
-            <a href="https://linkedin.com/in/advaith-prabhu" className="flex items-center gap-2 hover:opacity-70 transition-opacity font-bold uppercase tracking-wider text-sm">
-              <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M20.447 20.452h-3.554v-5.569c0-1.328-.027-3.037-1.852-3.037-1.853 0-2.136 1.445-2.136 2.939v5.667H9.351V9h3.414v1.561h.046c.477-.9 1.637-1.85 3.37-1.85 3.601 0 4.267 2.37 4.267 5.455v6.286zM5.337 7.433a2.062 2.062 0 0 1-2.063-2.065 2.064 2.064 0 1 1 2.063 2.065zm1.782 13.019H3.555V9h3.564v11.452zM22.225 0H1.771C.792 0 0 .774 0 1.729v20.542C0 23.227.792 24 1.771 24h20.451C23.2 24 24 23.227 24 22.271V1.729C24 .774 23.2 0 22.222 0h.003z"/></svg>
-              LinkedIn
-            </a>
-            <a href="https://github.com/advaith-prabhu" className="flex items-center gap-2 hover:opacity-70 transition-opacity font-bold uppercase tracking-wider text-sm">
-              <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M12 .297c-6.63 0-12 5.373-12 12 0 5.303 3.438 9.8 8.205 11.385.6.113.82-.258.82-.577 0-.285-.01-1.04-.015-2.04-3.338.724-4.042-1.61-4.042-1.61C4.422 18.07 3.633 17.7 3.633 17.7c-1.087-.744.084-.729.084-.729 1.205.084 1.838 1.236 1.838 1.236 1.07 1.835 2.809 1.305 3.495.998.108-.776.417-1.305.76-1.605-2.665-.3-5.466-1.332-5.466-5.93 0-1.31.465-2.38 1.235-3.22-.135-.303-.54-1.523.105-3.176 0 0 1.005-.322 3.3 1.23.96-.267 1.98-.399 3-.405 1.02.006 2.04.138 3 .405 2.28-1.552 3.285-1.23 3.285-1.23.645 1.653.24 2.873.12 3.176.765.84 1.23 1.91 1.23 3.22 0 4.61-2.805 5.625-5.475 5.92.42.36.81 1.096.81 2.22 0 1.606-.015 2.896-.015 3.286 0 .315.21.69.825.57C20.565 22.092 24 17.592 24 12.297c0-6.627-5.373-12-12-12"/></svg>
-              GitHub
-            </a>
-            <a href="mailto:advaith@gmail.com" className="flex items-center gap-2 hover:opacity-70 transition-opacity font-bold uppercase tracking-wider text-sm">
-              {/* TODO: replace placeholder email */}
-              <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M24 5.457v13.909c0 .904-.732 1.636-1.636 1.636h-3.819V11.73L12 16.64l-6.545-4.91v9.273H1.636A1.636 1.636 0 0 1 0 19.366V5.457c0-2.023 2.309-3.178 3.927-1.964L5.455 4.64 12 9.548l6.545-4.91 1.528-1.145C21.69 2.28 24 3.434 24 5.457z"/></svg>
-              Gmail
-            </a>
-            <a href="#resume" className="flex items-center gap-2 hover:opacity-70 transition-opacity font-bold uppercase tracking-wider text-sm">
-              {/* TODO: replace placeholder href with real PDF download link */}
-              <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8l-6-6zm-1 1.5L18.5 9H13V3.5zM6 20V4h5v7h7v9H6z"/></svg>
-              Résumé
-            </a>
           </div>
-          <p className="text-xs opacity-40">© 2025 Advaith Prabhu. Built with React &amp; Framer Motion.</p>
-        </div>
-      </FlowSection>
-    </FlowArt>
-    </>
+        </ScrollScene>
+
+        {/* Projects */}
+        <ScrollScene id="work" data-balatro-theme="projects" className="relative min-h-[100dvh] flex flex-col items-center justify-center px-[6vw] py-[10vh] overflow-hidden scroll-mt-12">
+          <div aria-hidden="true" className="paper-grain section-wash absolute inset-0 z-0" />
+          <MarginDoodles tone="onLight" side="left" />
+          <div className="relative z-20 w-full max-w-5xl">
+            <ParallaxLayer distance={22}>
+              <SectionLabel n="03">Selected Projects</SectionLabel>
+              <h2 className="font-display uppercase leading-[0.85] text-[clamp(2.6rem,8vw,6rem)] text-[var(--paper-text)] mt-4 mb-4">
+                Selected
+                <br />
+                Projects
+              </h2>
+              <p className="hidden md:block font-mono text-xs uppercase tracking-wider text-[var(--paper-text)]/40 mb-10">
+                Move your cursor. Each card links out to its GitHub repo
+              </p>
+            </ParallaxLayer>
+
+            {/* Mobile: stacked list. The scattered layout below needs room to spread out. */}
+            <ParallaxLayer className="flex flex-col gap-10 md:hidden" distance={38}>
+              {PROJECTS.map((project, i) => (
+                <Reveal key={project.title} delay={i * 0.06}>
+                  <ProjectCard {...project} />
+                </Reveal>
+              ))}
+            </ParallaxLayer>
+
+            {/* Desktop: mouse-parallax scattered gallery */}
+            <ParallaxLayer className="relative hidden md:block h-[680px] lg:h-[760px]" distance={54} scale={0.01}>
+              <Floating sensitivity={0.6} className="overflow-visible">
+                {PROJECTS.map(({ pos, depth, ...project }, i) => (
+                  <FloatingElement key={project.title} depth={depth} className={pos}>
+                    <Reveal delay={i * 0.06}>
+                      <ProjectCard {...project} className="w-[280px]" />
+                    </Reveal>
+                  </FloatingElement>
+                ))}
+              </Floating>
+            </ParallaxLayer>
+          </div>
+        </ScrollScene>
+
+        {/* Skills */}
+        <ScrollScene data-balatro-theme="skills" className="relative min-h-[100dvh] flex flex-col items-center justify-center px-[6vw] py-[10vh] overflow-hidden">
+          <div aria-hidden="true" className="paper-grain section-wash absolute inset-0 z-0" />
+          <MarginDoodles tone="onLight" side="right" />
+          <div className="relative z-20 w-full max-w-4xl">
+            <ParallaxLayer distance={22}>
+              <SectionLabel n="04">Skills &amp; Tools</SectionLabel>
+              <h2 className="font-display uppercase leading-[0.85] text-[clamp(2.6rem,8vw,6rem)] text-[var(--paper-text)] mt-4 mb-14">
+                The
+                <br />
+                Stack
+              </h2>
+            </ParallaxLayer>
+            <div className="grid grid-cols-1 sm:grid-cols-2 gap-x-16 gap-y-10 max-w-4xl items-start">
+              {SKILLS.map(({ label, skills }, i) => (
+                <ParallaxLayer key={label} distance={32 + (i % 2) * 18} rotate={i % 2 === 0 ? 0.2 : -0.2}>
+                  <Reveal delay={i * 0.06}>
+                    <span className="inline-block font-mono text-[11px] font-bold uppercase tracking-wider text-[var(--ink)] bg-[var(--marker)] px-3 py-1 mb-4">
+                      {label}
+                    </span>
+                    <div className="flex flex-wrap gap-2">
+                      {skills.map((skill) => (
+                        <span
+                          key={skill}
+                          className="font-mono text-xs text-[var(--paper-text)]/80 border-[1.5px] border-[var(--paper-text)]/25 px-3 py-1"
+                        >
+                          {skill}
+                        </span>
+                      ))}
+                    </div>
+                  </Reveal>
+                </ParallaxLayer>
+              ))}
+            </div>
+          </div>
+        </ScrollScene>
+
+        {/* Contact */}
+        <ScrollScene id="contact" data-balatro-theme="contact" className="relative px-[6vw] py-[10vh] flex justify-center overflow-hidden scroll-mt-12">
+          <div aria-hidden="true" className="paper-grain section-wash absolute inset-0 z-0" />
+          <MarginDoodles tone="onLight" side="left" />
+          <MarginDoodles tone="onLight" side="right" />
+          <div className="relative z-20 w-full max-w-3xl">
+            <ParallaxLayer distance={20}>
+              <SectionLabel n="05">Get In Touch</SectionLabel>
+              <h2 className="font-display uppercase leading-[0.85] text-[clamp(2.6rem,9vw,7rem)] text-[var(--paper-text)] mt-4 mb-12">
+                Let&rsquo;s
+                <br />
+                Work Together
+              </h2>
+            </ParallaxLayer>
+
+            <ParallaxLayer distance={46} rotate={-0.6} scale={0.015}>
+              <Reveal>
+                <NotebookCard rotate={1} ruled className="p-6 md:p-10">
+                <Tape className="-top-3 left-8 w-24" rotate={-5} />
+                <p className="font-mono text-xs font-bold uppercase tracking-wider text-[var(--marker-deep)] mb-4">
+                  What I&rsquo;m looking for
+                </p>
+                <ul className="font-mono text-sm space-y-2 mb-8">
+                  <li>Research collaborations in quant / applied math</li>
+                  <li>Quant &amp; software internships</li>
+                  <li>Genuinely interesting problems</li>
+                </ul>
+
+                <div className="flex flex-wrap gap-x-8 gap-y-3 border-t-[1.5px] border-[var(--paper-text)]/20 pt-6">
+                  <a href="https://linkedin.com/in/advaith-prabhu" target="_blank" rel="noopener noreferrer" className={LINK_CLASS}>
+                    LinkedIn
+                  </a>
+                  <a href="https://github.com/advaith-prabhu" target="_blank" rel="noopener noreferrer" className={LINK_CLASS}>
+                    GitHub
+                  </a>
+                  <a href="mailto:darsanaarun.sg@gmail.com" className={LINK_CLASS}>
+                    Email
+                  </a>
+                  {/* TODO: replace placeholder href with real résumé PDF link */}
+                  <a href="#resume" className={LINK_CLASS}>
+                    Résumé
+                  </a>
+                </div>
+                </NotebookCard>
+              </Reveal>
+            </ParallaxLayer>
+
+            <p className="font-mono text-[11px] text-[var(--paper-text)]/40 mt-10">© 2026 Advaith Prabhu.</p>
+          </div>
+        </ScrollScene>
+      </div>
+    </main>
   );
 }
