@@ -13,3 +13,5 @@ shot-viewport.mjs
 .impeccable/
 tsconfig.app.tsbuildinfo
 .claude/launch.json
+.vercel
+.env*

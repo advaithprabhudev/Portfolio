@@ -1,5 +1,5 @@
 import { motion, useReducedMotion, type Variants } from 'motion/react';
-import type { ReactNode } from 'react';
+import { useRef, type ReactNode } from 'react';
 import { NotebookCard } from './components/ui/notebook-card';
 import { Tape } from './components/ui/tape';
 import { Pin } from './components/ui/pin';
@@ -10,7 +10,7 @@ import { ParallaxLayer, ScrollScene } from './components/ui/scroll-scene';
 import { ScrollThread } from './components/ui/svg-follow-scroll';
 import { BalatroBackground } from './components/ui/balatro-background';
 import { MusicPlayer } from './components/ui/music-player';
-import { ASCII_HERO_ART } from './lib/ascii-hero-art';
+import { Cube } from './components/ui/cube';
 
 const LINK_CLASS =
   'font-mono text-xs font-semibold uppercase tracking-[0.15em] underline decoration-[var(--marker)] decoration-2 underline-offset-4 hover:text-[var(--marker)] transition-colors duration-200 focus-visible:outline focus-visible:outline-2 focus-visible:outline-[var(--marker)] focus-visible:outline-offset-4 rounded-none';
@@ -174,6 +174,8 @@ function ProjectCard({
 }
 
 export default function App() {
+  const threadOriginRef = useRef<HTMLSpanElement>(null);
+
   return (
     <main className="relative isolate">
       <BalatroBackground initialTheme="hero" />
@@ -189,7 +191,7 @@ export default function App() {
       </header>
 
       <div className="relative overflow-hidden">
-        <ScrollThread className="z-10" />
+        <ScrollThread className="z-10" originRef={threadOriginRef} />
 
         {/* Hero */}
         <ScrollScene id="portfolio" data-balatro-theme="hero" className="relative min-h-[100dvh] flex flex-col justify-center px-[6vw] py-24 overflow-hidden scroll-mt-12">
@@ -208,7 +210,7 @@ export default function App() {
               <h1 className="font-display uppercase leading-[0.82] text-[clamp(3.2rem,11vw,9rem)] text-[var(--paper-text)]">
                 Hi, I&rsquo;m
                 <br />
-                <span className="text-[var(--marker)]">Advaith.</span>
+                <span className="text-[var(--marker)]">Adva<span ref={threadOriginRef}>i</span>th.</span>
               </h1>
 
               <p className="font-mono max-w-md text-sm md:text-base leading-relaxed text-[var(--paper-text)]/80">
@@ -223,14 +225,19 @@ export default function App() {
               </p>
             </ParallaxLayer>
 
-            <ParallaxLayer className="hidden md:block" distance={-38} rotate={0.7} scale={0.018}>
-              <pre
-                aria-hidden="true"
-                className="select-none font-mono leading-[1.05] text-[var(--paper-text)]/85 whitespace-pre overflow-hidden"
-                style={{ fontSize: 'clamp(2.6px, 0.34vw, 4.6px)' }}
-              >
-                {ASCII_HERO_ART}
-              </pre>
+            <ParallaxLayer className="hidden md:flex items-center justify-center" distance={-38} rotate={0.7} scale={0.018}>
+              <Cube
+                size={280}
+                perspective={900}
+                rotateX={-24}
+                rotateY={24}
+                cubeColor="var(--paper)"
+                borderColor="var(--paper-text)"
+                borderWidth={2}
+                borderRadius={4}
+                faceColorFront="var(--marker)"
+                faceColorBack="var(--marker-deep)"
+              />
             </ParallaxLayer>
           </div>
 

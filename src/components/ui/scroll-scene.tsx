@@ -73,6 +73,7 @@ export function ParallaxLayer({
   const y = useTransform(scene.progress, [0, 0.5, 1], [distance, 0, -distance]);
   const layerRotate = useTransform(scene.progress, [0, 0.5, 1], [rotate, 0, -rotate]);
   const layerScale = useTransform(scene.progress, [0, 0.5, 1], [1 - scale, 1, 1 - scale * 0.5]);
+  const layerOpacity = useTransform(scene.progress, [0, 0.15, 0.85, 1], [0.4, 1, 1, 0.4]);
 
   return (
     <motion.div
@@ -83,6 +84,7 @@ export function ParallaxLayer({
         y: scene.reducedMotion ? 0 : y,
         rotate: scene.reducedMotion ? 0 : layerRotate,
         scale: scene.reducedMotion ? 1 : layerScale,
+        opacity: scene.reducedMotion ? 1 : layerOpacity,
         transformOrigin: 'center center',
       }}
     >

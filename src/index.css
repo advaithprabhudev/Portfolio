@@ -115,7 +115,7 @@ html {
   flex: 0 0 auto;
   width: clamp(76px, 9vw, 126px);
   aspect-ratio: 0.7;
-  margin-inline: clamp(-1.2rem, -1.1vw, -0.4rem);
+  margin-inline-end: clamp(-1.2rem, -1.1vw, -0.4rem);
   border: clamp(3px, 0.35vw, 5px) solid #17140f;
   border-radius: 0.45rem;
   background: #f5f0e8;
@@ -126,29 +126,6 @@ html {
     0 10px 0 #17140f,
     7px 15px 0 rgba(4, 24, 43, 0.48);
   transform: rotate(2deg) translateY(-0.05em);
-}
-
-.title-screen__card::before,
-.title-screen__card::after {
-  position: absolute;
-  z-index: -1;
-  color: #ce3943;
-  font-family: var(--font-display);
-  font-size: 1.15em;
-  -webkit-text-stroke: 3px #17140f;
-  paint-order: stroke fill;
-}
-
-.title-screen__card::before {
-  content: "$";
-  top: -0.72em;
-  transform: rotate(-8deg);
-}
-
-.title-screen__card::after {
-  content: "$";
-  bottom: -0.78em;
-  transform: rotate(8deg);
 }
 
 .title-screen__card-suit {
@@ -321,24 +298,16 @@ html {
   }
 
   .title-screen__logo {
-    display: grid;
-    justify-items: center;
-    font-size: clamp(3.2rem, 18vw, 5rem);
-    line-height: 0.78;
-    white-space: normal;
+    font-size: clamp(2.6rem, 15vw, 4.2rem);
+    line-height: 0.8;
   }
 
   .title-screen__card {
-    position: absolute;
-    top: 48%;
-    left: 50%;
-    width: clamp(72px, 22vw, 92px);
-    margin: 0;
-    transform: translate(-50%, -50%) rotate(2deg);
+    width: clamp(58px, 15vw, 84px);
   }
 
   .title-screen__card-suit {
-    font-size: 2.8rem;
+    font-size: 2.4rem;
   }
 
   .title-screen__menu {
@@ -349,11 +318,6 @@ html {
 
   .title-screen__button {
     min-height: 3.5rem;
-  }
-
-  @keyframes card-hover {
-    from { transform: translate(-50%, -50%) rotate(0deg); }
-    to { transform: translate(-50%, -54%) rotate(3deg); }
   }
 }
 
